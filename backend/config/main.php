@@ -11,7 +11,17 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'sourceLanguage'=>'en_US',
+    'language' => 'ru',
+    'charset' => 'UTF-8',
+    'timeZone' => 'Europe/Kiev',
+    'name' => \Yii::t('app', 'Админка'),
+    'modules' => [
+        'gii' => [
+            'class' => 'yii\gii\Module',
+            'allowedIPs' => ['127.0.0.1', '::1']
+        ],
+    ],
     'components' => [
         'cache' => [
 //            'class' => 'yii\caching\DbCache',
@@ -51,7 +61,7 @@ return [
             'suffix' => '/',
             'scriptUrl'=>'/backend/index.php',
             'rules' => [
-                '' => 'site/index',
+                '' => 'settings/index',
 
 
                 '<controller:\w+>/<id:\d+>/<action:(create|update|delete)>' => '<controller>/<action>',
