@@ -21,6 +21,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="shortcut icon" type="image/x-icon" href="/admin/css/favicon.ico">
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -46,6 +47,13 @@ AppAsset::register($this);
                 ['label' => Yii::t('app', 'News'), 'url' => ['/news/index']],
             ]
         ];
+        $menuItems[] = ['label' => Yii::t('app', 'Товары'),
+            'items' => [
+                ['label' => Yii::t('app', 'Производители'), 'url' => ['/manufacturer/index']],
+                ['label' => Yii::t('app', 'Категории'), 'url' => ['/category/index']],
+                ['label' => Yii::t('app', 'Товары'), 'url' => ['/item/index']],
+            ]
+        ];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
@@ -66,7 +74,7 @@ AppAsset::register($this);
         <?= Breadcrumbs::widget([
             'homeLink' => [
                 'label' => Yii::t('app', 'Настройки'),
-                'url' => Yii::$app->getHomeUrl(),
+                'url' => \yii\helpers\Url::toRoute(['settings/index']),
             ],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
@@ -77,9 +85,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-left">&copy; <?=Yii::$app->name?> <?= date('Y') ?></p>
     </div>
 </footer>
 

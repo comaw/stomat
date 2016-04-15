@@ -2,29 +2,26 @@
 
 namespace backend\controllers;
 
-use common\UrlHelp;
 use Yii;
-use app\models\Page;
-use app\models\PageSearch;
+use backend\models\Manufacturer;
+use backend\models\ManufacturerSearch;
 use backend\ext\BaseController;
-use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 
 
 /**
- * PageController implements the CRUD actions for Page model.
+ * ManufacturerController implements the CRUD actions for Manufacturer model.
  */
-class PageController extends BaseController
+class ManufacturerController extends BaseController
 {
 
     /**
-     * Lists all Page models.
+     * Lists all Manufacturer models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PageSearch();
+        $searchModel = new ManufacturerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -34,7 +31,7 @@ class PageController extends BaseController
     }
 
     /**
-     * Displays a single Page model.
+     * Displays a single Manufacturer model.
      * @param string $id
      * @return mixed
      */
@@ -46,23 +43,16 @@ class PageController extends BaseController
     }
 
     /**
-     * Creates a new Page model.
+     * Creates a new Manufacturer model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Page();
+        $model = new Manufacturer();
 
         if ($model->load(Yii::$app->request->post())) {
             if($model->validate()){
-                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-                if($model->imageFile) {
-                    if ($imgName = $model->upload($model->url)) {
-                        $model->img = $imgName;
-                    }
-                }
-                $model->imageFile = null;
                 $model->save(false);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -73,7 +63,7 @@ class PageController extends BaseController
     }
 
     /**
-     * Updates an existing Page model.
+     * Updates an existing Manufacturer model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -84,13 +74,6 @@ class PageController extends BaseController
 
         if ($model->load(Yii::$app->request->post())) {
             if($model->validate()){
-                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-                if($model->imageFile){
-                    if($imgName = $model->upload($model->url)){
-                        $model->img = $imgName;
-                    }
-                }
-                $model->imageFile = null;
                 $model->save(false);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -101,40 +84,31 @@ class PageController extends BaseController
     }
 
     /**
-     * Deletes an existing Page model.
+     * Deletes an existing Manufacturer model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
      */
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
-        Page::delImg($model->img);
-        $model->delete();
+        $this->findModel($id)->delete();
+
         return $this->redirect(['index']);
     }
 
-    public function actionImgdel($id){
-        $model = $this->findModel($id);
-        Page::delImg($model->img);
-        $model->img = null;
-        $model->save();
-        return $this->redirect(Url::toRoute(['page/update', 'id' => $model->id]));
-    }
-
     /**
-     * Finds the Page model based on its primary key value.
+     * Finds the Manufacturer model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Page the loaded model
+     * @return Manufacturer the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Page::findOne($id)) !== null) {
+        if (($model = Manufacturer::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 }

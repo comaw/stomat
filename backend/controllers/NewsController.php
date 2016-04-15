@@ -55,7 +55,6 @@ class NewsController extends BaseController
         $model = new News();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->url = UrlHelp::translateUrl($model->name);
             if($model->validate()){
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
                 if($model->imageFile) {
@@ -64,7 +63,7 @@ class NewsController extends BaseController
                     }
                 }
                 $model->imageFile = null;
-                $model->save();
+                $model->save(false);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -84,7 +83,6 @@ class NewsController extends BaseController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->url = UrlHelp::translateUrl($model->url);
             if($model->validate()){
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
                 if($model->imageFile){
@@ -93,7 +91,7 @@ class NewsController extends BaseController
                     }
                 }
                 $model->imageFile = null;
-                $model->save();
+                $model->save(false);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }

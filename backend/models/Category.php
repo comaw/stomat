@@ -1,14 +1,12 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
-use common\UrlHelp;
 use common\UrlHelper;
 use Yii;
-use yii\helpers\Url;
 
 /**
- * This is the model class for table "{{%page}}".
+ * This is the model class for table "{{%category}}".
  *
  * @property string $id
  * @property string $name
@@ -16,20 +14,15 @@ use yii\helpers\Url;
  * @property string $title
  * @property string $description
  * @property string $content
- * @property string $img
- * @property string $imageFile
- * @property string $created
  */
-class Page extends \yii\db\ActiveRecord
+class Category extends \yii\db\ActiveRecord
 {
-    public $imageFile;
-
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%page}}';
+        return '{{%category}}';
     }
 
     public function beforeValidate()
@@ -62,14 +55,11 @@ class Page extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'url', 'title', 'description'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
-            [['name', 'url', 'content'], 'required'],
+            [['name', 'url'], 'required'],
             [['content'], 'string'],
-            [['created', 'img'], 'safe'],
-            [['name', 'url', 'title', 'description', 'img'], 'string', 'max' => 255],
+            [['name', 'url', 'title', 'description'], 'string', 'max' => 255],
             [['name'], 'unique'],
             [['url'], 'unique'],
-            [['imageFile'], 'file', 'extensions' => ['png', 'jpg', 'jpeg', 'gif']],
         ];
     }
 
@@ -85,27 +75,6 @@ class Page extends \yii\db\ActiveRecord
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
             'content' => Yii::t('app', 'Content'),
-            'img' => Yii::t('app', 'Img'),
-            'imageFile' => Yii::t('app', 'Img'),
-            'created' => Yii::t('app', 'Created'),
         ];
-    }
-
-    public function upload($url)
-    {
-        if ($this->validate()) {
-            $this->imageFile->saveAs(Yii::getAlias('@frontend/web/images/pages/'). $url . '.' . $this->imageFile->extension);
-            return $url . '.' . $this->imageFile->extension;
-        } else {
-            return false;
-        }
-    }
-
-    public static function getUrlImg($img){
-        return UrlHelp::baseAdmin().'images/pages/'.$img;
-    }
-
-    public static function delImg($img){
-        return @unlink(Yii::getAlias('@frontend/web/images/pages/').$img);
     }
 }

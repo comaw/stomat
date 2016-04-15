@@ -3,6 +3,7 @@
 namespace app\models;
 
 use common\UrlHelp;
+use common\UrlHelper;
 use Yii;
 use yii\helpers\Url;
 
@@ -30,6 +31,15 @@ class News extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%news}}';
+    }
+
+    public function beforeValidate()
+    {
+        if(!$this->url){
+            $this->url = $this->name;
+        }
+        $this->url = UrlHelper::translateUrl($this->url);
+        return parent::beforeValidate();
     }
 
     /**
