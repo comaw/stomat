@@ -13,6 +13,19 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+        'cache' => [
+//            'class' => 'yii\caching\DbCache',
+            // 'db' => 'mydb',
+            // 'cacheTable' => 'my_cache',
+        ],
+        'cacheFile' => [
+            'class' => 'yii\caching\FileCache',
+        ],
+        'request' => [
+            'enableCsrfValidation' => true,
+            'cookieValidationKey' => 'jksh3786($(W^',
+            'baseUrl' => '/admin',
+        ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
@@ -29,14 +42,23 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+        'db' => require(__DIR__ . '/../../frontend/config/db.php'),
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => true,
+            'baseUrl' => '/admin',
+            'suffix' => '/',
+            'scriptUrl'=>'/backend/index.php',
             'rules' => [
+                '' => 'site/index',
+
+
+                '<controller:\w+>/<id:\d+>/<action:(create|update|delete)>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                '<controller:\w+>' => '<controller>/index',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
