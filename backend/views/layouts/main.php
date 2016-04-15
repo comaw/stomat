@@ -40,6 +40,12 @@ AppAsset::register($this);
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => Yii::t('app', 'Вход'), 'url' => ['/site/login']];
     } else {
+        $menuItems[] = ['label' => Yii::t('app', 'Texts'),
+            'items' => [
+                ['label' => Yii::t('app', 'Pages'), 'url' => ['/page/index']],
+                ['label' => Yii::t('app', 'News'), 'url' => ['/news/index']],
+            ]
+        ];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
