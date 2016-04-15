@@ -4,6 +4,7 @@ namespace backend\models;
 
 use common\UrlHelper;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -55,6 +56,8 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['name', 'url', 'title', 'description', 'content'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
+            [['name', 'url', 'title', 'description'], 'filter', 'filter' => 'strip_tags', 'skipOnArray' => true],
             [['name', 'url'], 'required'],
             [['content'], 'string'],
             [['name', 'url', 'title', 'description'], 'string', 'max' => 255],
@@ -76,5 +79,9 @@ class Category extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Description'),
             'content' => Yii::t('app', 'Content'),
         ];
+    }
+
+    public static function getToList(){
+        return ArrayHelper::map(self::find()->orderBy('name')->all(), 'id', 'name');
     }
 }

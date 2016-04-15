@@ -1,26 +1,25 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "{{%settings}}".
+ * This is the model class for table "{{%currency}}".
  *
  * @property string $id
  * @property string $name
- * @property string $value
  * @property string $title
- * @property string $last
  */
-class Settings extends \yii\db\ActiveRecord
+class Currency extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%settings}}';
+        return '{{%currency}}';
     }
 
     /**
@@ -29,12 +28,11 @@ class Settings extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'value', 'title'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
+            [['name', 'title'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
             [['name', 'title'], 'filter', 'filter' => 'strip_tags', 'skipOnArray' => true],
             [['name'], 'required'],
-            [['last'], 'safe'],
-            [['name', 'value', 'title'], 'string', 'max' => 255],
-            [['name'], 'unique']
+            [['name', 'title'], 'string', 'max' => 255],
+            [['name'], 'unique'],
         ];
     }
 
@@ -46,9 +44,11 @@ class Settings extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
-            'value' => Yii::t('app', 'Value'),
-            'title' => Yii::t('app', 'Title settings'),
-            'last' => Yii::t('app', 'Last update'),
+            'title' => Yii::t('app', 'Общее название'),
         ];
+    }
+
+    public static function getToList(){
+        return ArrayHelper::map(self::find()->orderBy('id asc')->all(), 'id', 'name');
     }
 }

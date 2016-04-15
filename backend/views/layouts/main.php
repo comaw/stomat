@@ -54,6 +54,13 @@ AppAsset::register($this);
                 ['label' => Yii::t('app', 'Товары'), 'url' => ['/item/index']],
             ]
         ];
+        $menuItems[] = ['label' => Yii::t('app', 'Дополнения'),
+            'items' => [
+                ['label' => Yii::t('app', 'Страны'), 'url' => ['/country/index']],
+                ['label' => Yii::t('app', 'Характеристики товара'), 'url' => ['/characteristic/index']],
+                ['label' => Yii::t('app', 'Валюта'), 'url' => ['/currency/index']],
+            ]
+        ];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(

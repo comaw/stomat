@@ -68,4 +68,29 @@ return [
 
     'The requested page does not exist.' => 'Запрашиваемая страница не существует.',
     'Leave blank if you do not need to change' => 'Оставить пустым, если не нужно изменять',
+
+    'Countries' => 'Страны',
+    'Country' => 'Страна',
+    'Create Country' => 'Добавить страну',
+    'Characteristics' => 'Характеристики',
+    'Characteristic' => 'Характеристика',
+    'Create Characteristic' => 'Создать характеристику',
+    'Currencies' => 'Валюты',
+    'Currency' => 'Валюта',
+    'Create Currency' => 'Создать валюту',
+
+    'Manufacturer' => 'Производитель',
+    'Manufacturers' => 'Производители',
+    'Create Manufacturer' => 'Создать производителя',
+
+    'Unit' => 'Единица измерения',
+    'Stock' => 'В наличии',
+    'Warranty' => 'Гарантийный срок',
+    'Delivery' => 'Возможност поставки',
+    'Delivery Time' => 'Сроки поставки',
+    'Packing' => 'Способ упаковки',
+    'Code' => 'Код товара',
+
+    'Image File' => 'Картинка',
+    'Position' => 'Позиция',
 ];
