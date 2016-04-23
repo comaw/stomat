@@ -4,6 +4,8 @@
 # phpstorm project files
 .idea
 
+frontend/web/image
+
 # netbeans project files
 nbproject
 

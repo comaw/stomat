@@ -35,10 +35,9 @@ class News extends \yii\db\ActiveRecord
 
     public function beforeValidate()
     {
-        if(!$this->url){
+        if($this->isNewRecord){
             $this->url = $this->name;
         }
-        $this->url = UrlHelper::translateUrl($this->url);
         return parent::beforeValidate();
     }
 
@@ -52,6 +51,7 @@ class News extends \yii\db\ActiveRecord
                 $this->title = $this->title ? $this->title : $this->name;
                 $this->description = $this->description ? $this->description : $this->name;
             }
+            $this->url = UrlHelper::translateUrl($this->url);
             return true;
         }
         return false;
