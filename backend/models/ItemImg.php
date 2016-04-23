@@ -2,6 +2,7 @@
 
 namespace backend\models;
 
+use common\UrlHelp;
 use Yii;
 
 /**
@@ -66,27 +67,53 @@ class ItemImg extends \yii\db\ActiveRecord
 
     public function upload($model)
     {
+
         $dirItemImg = Yii::getAlias('@frontend/web/image/item/');
         if(!is_dir($dirItemImg)){
             mkdir($dirItemImg, 0777);
         }
         $this->item = $model->id;
+        $this->name = 'test';
         $dirItemImg .= $model->id.'/';
         if(!is_dir($dirItemImg)){
             mkdir($dirItemImg, 0777);
         }
         if ($this->validate()) {
-            foreach ($this->imageFiles as $key => $file) {
+            $key = 0;
+            $positions = Yii::$app->request->post('ItemImg');
+            foreach ($this->imageFile AS $file) {
                 $fileName = $file->baseName . '.' . $file->extension;
                 $file->saveAs($dirItemImg . $fileName);
                 $imgSave = new self();
                 $imgSave->item = $model->id;
                 $imgSave->name = $fileName;
-                $imgSave->position = $this->position ? $this->position : (4 - $key);
+                $imgSave->position = isset($positions['position']) && is_numeric($positions['position']) ? $positions['position'] : (4 - $key);
                 $imgSave->save();
+                $key++;
             }
             return true;
         }
         return false;
+    }
+
+    public function getImgUrl(){
+
+        if(!$this->name){
+            return null;
+        }
+        $dirItemImg = Yii::getAlias('@frontend/web/image/item/').$this->item.'/'.$this->name;
+        if(!is_file($dirItemImg)){
+            return null;
+        }
+        return UrlHelp::adminHome().'image/item/'.$this->item.'/'.$this->name;
+    }
+
+    public function deleteImg(){
+        $dirItemImg = Yii::getAlias('@frontend/web/image/item/').$this->item.'/'.$this->name;
+        if(!is_file($dirItemImg)){
+            return null;
+        }
+        @unlink($dirItemImg);
+        return true;
     }
 }

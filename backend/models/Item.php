@@ -34,8 +34,8 @@ use Yii;
  * @property Manufacturer $manufacturer0
  * @property ItemCharacteristic[] $itemCharacteristics
  *
- * @property ItemImg $ItemImg
- * @property ItemImg[] $ItemImgs
+ * @property ItemImg $itemImg
+ * @property ItemImg[] $itemImgs
  */
 class Item extends \yii\db\ActiveRecord
 {

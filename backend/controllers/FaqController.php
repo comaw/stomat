@@ -2,29 +2,26 @@
 
 namespace backend\controllers;
 
-use backend\models\Characteristic;
-use backend\models\ItemImg;
 use Yii;
-use backend\models\Item;
-use backend\models\ItemSearch;
+use backend\models\Faq;
+use backend\models\FaqSearch;
 use backend\ext\BaseController;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 
 
 /**
- * ItemController implements the CRUD actions for Item model.
+ * FaqController implements the CRUD actions for Faq model.
  */
-class ItemController extends BaseController
+class FaqController extends BaseController
 {
 
     /**
-     * Lists all Item models.
+     * Lists all Faq models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ItemSearch();
+        $searchModel = new FaqSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -34,7 +31,7 @@ class ItemController extends BaseController
     }
 
     /**
-     * Displays a single Item model.
+     * Displays a single Faq model.
      * @param string $id
      * @return mixed
      */
@@ -46,34 +43,27 @@ class ItemController extends BaseController
     }
 
     /**
-     * Creates a new Item model.
+     * Creates a new Faq model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Item();
-        $imgs = new ItemImg();
-        $characteristic = Characteristic::find()->orderBy('name asc')->all();
+        $model = new Faq();
+
         if ($model->load(Yii::$app->request->post())) {
             if($model->validate()){
                 $model->save(false);
-                if($imgs->load(Yii::$app->request->post())){
-                    $imgs->imageFile = UploadedFile::getInstances($imgs, 'imageFile');
-                    $imgs->upload($model);
-                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
         return $this->render('create', [
             'model' => $model,
-            'imgs' => $imgs,
-            'characteristic' => $characteristic,
         ]);
     }
 
     /**
-     * Updates an existing Item model.
+     * Updates an existing Faq model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -81,28 +71,21 @@ class ItemController extends BaseController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $imgs = new ItemImg();
-        $characteristic = Characteristic::find()->orderBy('name asc')->all();
+
         if ($model->load(Yii::$app->request->post())) {
             if($model->validate()){
                 $model->save(false);
-                if($imgs->load(Yii::$app->request->post())){
-                    $imgs->imageFile = UploadedFile::getInstances($imgs, 'imageFile');
-                    $imgs->upload($model);
-                }
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Успешно сохраненно!'));
                 return $this->refresh();
             }
         }
         return $this->render('update', [
             'model' => $model,
-            'imgs' => $imgs,
-            'characteristic' => $characteristic,
         ]);
     }
 
     /**
-     * Deletes an existing Item model.
+     * Deletes an existing Faq model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -115,15 +98,15 @@ class ItemController extends BaseController
     }
 
     /**
-     * Finds the Item model based on its primary key value.
+     * Finds the Faq model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Item the loaded model
+     * @return Faq the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Item::findOne($id)) !== null) {
+        if (($model = Faq::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

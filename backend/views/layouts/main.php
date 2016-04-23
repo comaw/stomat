@@ -45,6 +45,7 @@ AppAsset::register($this);
             'items' => [
                 ['label' => Yii::t('app', 'Pages'), 'url' => ['/page/index']],
                 ['label' => Yii::t('app', 'News'), 'url' => ['/news/index']],
+                ['label' => Yii::t('app', 'Faq'), 'url' => ['/faq/index']],
             ]
         ];
         $menuItems[] = ['label' => Yii::t('app', 'Товары'),

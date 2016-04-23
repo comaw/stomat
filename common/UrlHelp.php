@@ -63,6 +63,10 @@ class UrlHelp extends Url
         return trim(stripslashes($str));
     }
 
+    public static function adminHome(){
+        return str_replace('/admin/', '/', self::home());
+    }
+
     public static function baseAdmin(){
         return self::reduceMultiples(str_replace('admin', '', self::base()), '/');
     }
