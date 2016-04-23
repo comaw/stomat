@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\Characteristic;
+use backend\models\ItemCharacteristic;
 use backend\models\ItemImg;
 use Yii;
 use backend\models\Item;
@@ -62,6 +63,22 @@ class ItemController extends BaseController
                     $imgs->imageFile = UploadedFile::getInstances($imgs, 'imageFile');
                     $imgs->upload($model);
                 }
+                if(Yii::$app->request->post('ItemCharacteristic')){
+                    $ItemCharacteristic = Yii::$app->request->post('ItemCharacteristic');
+                    foreach($ItemCharacteristic AS $idCharacteristic => $value){
+                        $value = trim($value);
+                        if(!$value){
+                            continue;
+                        }
+                        $newCharacteristic = new ItemCharacteristic();
+                        $newCharacteristic->item = $model->id;
+                        $newCharacteristic->characteristic = (int)$idCharacteristic;
+                        $newCharacteristic->value = $value;
+                        if($newCharacteristic->validate()){
+                            $newCharacteristic->save(false);
+                        }
+                    }
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -89,6 +106,25 @@ class ItemController extends BaseController
                 if($imgs->load(Yii::$app->request->post())){
                     $imgs->imageFile = UploadedFile::getInstances($imgs, 'imageFile');
                     $imgs->upload($model);
+                }
+                if(Yii::$app->request->post('ItemCharacteristic')){
+                    $ItemCharacteristic = Yii::$app->request->post('ItemCharacteristic');
+                    foreach($ItemCharacteristic AS $idCharacteristic => $value){
+                        $value = trim($value);
+                        $newCharacteristic = ItemCharacteristic::find()->where("item = :item AND characteristic = :characteristic", [
+                            ':item' => $model->id,
+                            ':characteristic' => (int)$idCharacteristic,
+                        ])->one();
+                        if(!$newCharacteristic){
+                            $newCharacteristic = new ItemCharacteristic();
+                            $newCharacteristic->item = $model->id;
+                            $newCharacteristic->characteristic = (int)$idCharacteristic;
+                        }
+                        $newCharacteristic->value = $value;
+                        if($newCharacteristic->validate()){
+                            $newCharacteristic->save(false);
+                        }
+                    }
                 }
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Успешно сохраненно!'));
                 return $this->refresh();

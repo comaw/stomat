@@ -65,7 +65,6 @@ class ItemSearch extends Item
             'category' => $this->category,
             'manufacturer' => $this->manufacturer,
             'country' => $this->country,
-            'price' => $this->price,
             'stock' => $this->stock,
             'warranty' => $this->warranty,
             'delivery' => $this->delivery,
@@ -79,6 +78,7 @@ class ItemSearch extends Item
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'code', $this->code])
+            ->andFilterWhere(['like', 'price', $this->price])
             ->andFilterWhere(['like', 'unit', $this->unit])
             ->andFilterWhere(['like', 'packing', $this->packing]);
 

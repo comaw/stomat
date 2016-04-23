@@ -181,6 +181,18 @@ class Item extends \yii\db\ActiveRecord
         return $this->hasOne(ItemImg::className(), ['item' => 'id'])->orderBy('position desc, id asc');
     }
 
+    public function getStockName(){
+        return isset(self::yesOrNo()[$this->stock]) ? self::yesOrNo()[$this->stock] : null;
+    }
+
+    public function getDeliveryName(){
+        return isset(self::yesOrNo()[$this->delivery]) ? self::yesOrNo()[$this->delivery] : null;
+    }
+
+    public function getWarrantyName(){
+        return isset(self::warrantyList()[$this->warranty]) ? self::warrantyList()[$this->warranty] : null;
+    }
+
     public static function yesOrNo($ksort = false){
         $r = [
             1 => Yii::t('app', 'Да'),
