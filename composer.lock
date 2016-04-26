@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8580bd82955b1fbb80d47024e184056e",
-    "content-hash": "e1929a97e872bdbaacc8530468eccb67",
+    "hash": "4a02552783b3859d3367351d64c9a042",
+    "content-hash": "b6153aa4dd6db470cb79acdb98a2ffbf",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -298,6 +298,108 @@
                 "html"
             ],
             "time": "2013-11-30 08:25:19"
+        },
+        {
+            "name": "phpoffice/phpexcel",
+            "version": "1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPExcel.git",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "http://blog.rootslabs.net"
+                },
+                {
+                    "name": "Erik Tilt"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet",
+                "xls",
+                "xlsx"
+            ],
+            "time": "2015-05-01 07:00:55"
+        },
+        {
+            "name": "strong2much/yii2-excel",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/strong2much/yii2-excel.git",
+                "reference": "bb78a54541bae2ea29bffbff2d9caef49b5ffe15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/strong2much/yii2-excel/zipball/bb78a54541bae2ea29bffbff2d9caef49b5ffe15",
+                "reference": "bb78a54541bae2ea29bffbff2d9caef49b5ffe15",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "phpoffice/phpexcel": "1.8.*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "strong2much\\excel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Denis A. Tatarnikov",
+                    "email": "strong2much@gmail.com",
+                    "homepage": "https://github.com/strong2much"
+                }
+            ],
+            "description": "Helper and wrapper class for PHPExcel for simple communication",
+            "homepage": "https://github.com/strong2much/yii2-excel.git",
+            "keywords": [
+                "PHPExcel",
+                "excel",
+                "yii2"
+            ],
+            "time": "2015-11-21 18:34:56"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -907,7 +1009,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "strong2much/yii2-excel": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

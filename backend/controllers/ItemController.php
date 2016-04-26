@@ -5,6 +5,8 @@ namespace backend\controllers;
 use backend\models\Characteristic;
 use backend\models\ItemCharacteristic;
 use backend\models\ItemImg;
+use backend\models\ItemPriceForm;
+use backend\models\ItemExcelForm;
 use Yii;
 use backend\models\Item;
 use backend\models\ItemSearch;
@@ -18,6 +20,38 @@ use yii\web\UploadedFile;
  */
 class ItemController extends BaseController
 {
+
+    public function actionPrice()
+    {
+        set_time_limit(0);
+        $model = new ItemPriceForm();
+        if($model->load(Yii::$app->request->post())) {
+            $model->file = UploadedFile::getInstance($model, 'file');
+            if($model->upload()) {
+                $model->updateItem();
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Успешно обновленно!'));
+                return $this->refresh();
+            }
+        }
+        return $this->render('price', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionExcel()
+    {
+        set_time_limit(0);
+        $model = new ItemExcelForm();
+        if($model->load(Yii::$app->request->post())) {
+            $model->file = UploadedFile::getInstance($model, 'file');
+            if($model->upload()) {
+                $model->updateItem();
+            }
+        }
+        return $this->render('excel', [
+            'model' => $model,
+        ]);
+    }
 
     /**
      * Lists all Item models.

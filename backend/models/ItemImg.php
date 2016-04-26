@@ -2,6 +2,7 @@
 
 namespace backend\models;
 
+use common\CImageHandler;
 use common\UrlHelp;
 use Yii;
 
@@ -65,9 +66,14 @@ class ItemImg extends \yii\db\ActiveRecord
         return $this->hasOne(Item::className(), ['id' => 'item']);
     }
 
+    /**
+     * @param $model
+     *
+     * @return bool
+     * @throws \yii\base\Exception
+     */
     public function upload($model)
     {
-
         $dirItemImg = Yii::getAlias('@frontend/web/image/item/');
         if(!is_dir($dirItemImg)){
             mkdir($dirItemImg, 0777);
@@ -84,6 +90,13 @@ class ItemImg extends \yii\db\ActiveRecord
             foreach ($this->imageFile AS $file) {
                 $fileName = $file->baseName . '.' . $file->extension;
                 $file->saveAs($dirItemImg . $fileName);
+                $ih = new CImageHandler();
+                $ih->load($dirItemImg . $fileName)
+                    ->resize(198, 132)
+                    ->save($dirItemImg . 'small_' . $fileName)
+                    ->reload()
+                    ->resize(330, 220)
+                    ->save($dirItemImg . 'normal_' . $fileName);
                 $imgSave = new self();
                 $imgSave->item = $model->id;
                 $imgSave->name = $fileName;
@@ -96,24 +109,60 @@ class ItemImg extends \yii\db\ActiveRecord
         return false;
     }
 
-    public function getImgUrl(){
+    public static function uploadInUrl($url, $model)
+    {
+        $dirItemImg = Yii::getAlias('@frontend/web/image/item/');
+        if(!is_dir($dirItemImg)){
+            mkdir($dirItemImg, 0777);
+        }
+        $dirItemImg .= $model->id.'/';
+        if(!is_dir($dirItemImg)){
+            mkdir($dirItemImg, 0777);
+        }
+        $fileName = explode('/', $url);
+        $fileName = end($fileName);
+        if(!$url || !$fileName){
+            return false;
+        }
+        $copy = copy($url, $dirItemImg . $fileName);
+        if(!$copy){
+            return false;
+        }
+        $ih = new CImageHandler();
+        $ih->load($dirItemImg . $fileName)
+            ->resize(198, 132)
+            ->save($dirItemImg . 'small_' . $fileName)
+            ->reload()
+            ->resize(330, 220)
+            ->save($dirItemImg . 'normal_' . $fileName);
+        $imgSave = new self();
+        $imgSave->item = $model->id;
+        $imgSave->name = $fileName;
+        $imgSave->position = 1;
+        return $imgSave->save();
+    }
 
+    public function getImgUrl($type = ''){
         if(!$this->name){
             return null;
         }
-        $dirItemImg = Yii::getAlias('@frontend/web/image/item/').$this->item.'/'.$this->name;
+        $dirItemImg = Yii::getAlias('@frontend/web/image/item/').$this->item.'/'.$type.$this->name;
         if(!is_file($dirItemImg)){
             return null;
         }
-        return UrlHelp::adminHome().'image/item/'.$this->item.'/'.$this->name;
+        return UrlHelp::adminHome().'image/item/'.$this->item.'/'.$type.$this->name;
     }
 
     public function deleteImg(){
         $dirItemImg = Yii::getAlias('@frontend/web/image/item/').$this->item.'/'.$this->name;
+        $dirItemImgsmall = Yii::getAlias('@frontend/web/image/item/').$this->item.'/small_'.$this->name;
+        $dirItemImgnormal = Yii::getAlias('@frontend/web/image/item/').$this->item.'/normal_'.$this->name;
         if(!is_file($dirItemImg)){
             return null;
         }
         @unlink($dirItemImg);
+        @unlink($dirItemImgsmall);
+        @unlink($dirItemImgnormal);
         return true;
     }
 }

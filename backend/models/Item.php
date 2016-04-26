@@ -79,7 +79,7 @@ class Item extends \yii\db\ActiveRecord
         return [
             [['name', 'url', 'title', 'description', 'packing', 'code', 'unit'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
             [['name', 'url', 'title', 'description', 'packing', 'code', 'unit'], 'filter', 'filter' => 'strip_tags', 'skipOnArray' => true],
-            [['name', 'url', 'code', 'currency', 'category', 'manufacturer'], 'required'],
+            [['name', 'url', 'code', 'currency', 'category'], 'required'],
             [['content'], 'string'],
             [['currency', 'category', 'manufacturer', 'country', 'stock', 'warranty', 'delivery', 'delivery_time'], 'integer'],
             [['price'], 'number'],
