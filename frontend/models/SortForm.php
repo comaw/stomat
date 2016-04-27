@@ -44,7 +44,7 @@ class SortForm extends Model
         return [
             'price asc' => Yii::t('app', 'От дешевых к дорогим'),
             'price desc' => Yii::t('app', 'От дорогих к дешевым'),
-            'id desc' => Yii::t('app', 'Новые послупления'),
+            'id desc' => Yii::t('app', 'Новые поступления'),
             'name asc' => Yii::t('app', 'По имени'),
         ];
     }

@@ -16,7 +16,7 @@ Yii::$app->view->registerMetaTag([
 ]);
 ?>
 <div class="site-contact">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="headline first-child text-color"><?=$this->title?></h1>
     <p>
         <?=Yii::t('app', 'Если у вас есть деловое предложение или другие вопросы, пожалуйста, заполните следующую форму, чтобы связаться с нами. Спасибо.')?>
     </p>

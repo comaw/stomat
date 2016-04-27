@@ -22,7 +22,7 @@ Yii::$app->view->registerMetaTag([
 ]);
 
 ?>
-<h1><?=Yii::t('app', 'Новости')?></h1>
+<h1 class="headline first-child text-color"><?=Yii::t('app', 'Новости')?></h1>
 <p><br></p>
 <div class="row">
     <div class="col-xs-12">

@@ -19,6 +19,9 @@ class SearchController extends \yii\web\Controller
             $sortForm->sort = $sortForm->getSort();
         }
         $searchText = $search_text.'%';
+        if(mb_strlen($searchText, Yii::$app->charset) < 2){
+            return $this->render('indexno');
+        }
         $query = Item::find()->with(['itemImgs', 'currency0', 'manufacturer0'])->where("name LIKE :name AND stock > 0", [
             ':name' => $searchText
         ]);

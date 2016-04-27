@@ -23,8 +23,7 @@ Yii::$app->view->registerMetaTag([
 
 ?>
 <div class="blog-p-body">
-    <h1><?=$model->name?></h1>
-    <hr>
+    <h1 class="headline first-child text-color"><?=$model->name?></h1>
     <p class="text-muted"><time datetime="<?=$model->created?>"><?=date("d/m/Y", strtotime($model->created))?></time></p>
     <div>
         <?=$model->content?>

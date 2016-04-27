@@ -21,7 +21,7 @@ Yii::$app->view->registerMetaTag([
 ]);
 
 ?>
-<h1><?=Yii::t('app', 'Производители')?></h1>
+<h1 class="headline first-child text-color"><?=Yii::t('app', 'Производители')?></h1>
 <div class="row">
     <div class="tab-content">
         <div class="tab-pane fade in active">

@@ -19,7 +19,7 @@ Yii::$app->view->registerMetaTag([
     'content' => $manufacturer->description.(Yii::$app->request->get('page')? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page') - 1) : ''),
 ]);
 ?>
-<h1><?=Yii::t('app', 'Производитель')?> <?=$manufacturer->name?></h1>
+<h1 class="headline first-child text-color"><?=Yii::t('app', 'Производитель')?> <?=$manufacturer->name?></h1>
 <div class="row">
     <div class="col-xs-12 text-right">
         <?php $form = ActiveForm::begin(['id' => 'sort-form']); ?>

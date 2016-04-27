@@ -17,7 +17,7 @@ Yii::$app->view->registerMetaTag([
     'content' => Yii::t('app', 'Поиск по запросу: ').$search_text.(Yii::$app->request->get('page')? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page') - 1) : ''),
 ]);
 ?>
-<h1><?=Yii::t('app', 'Поиск по запросу: ').$search_text?></h1>
+<h1 class="headline first-child text-color"><?=Yii::t('app', 'Поиск по запросу: ').$search_text?></h1>
 <div class="row">
     <div class="col-xs-12 text-right">
         <?php $form = ActiveForm::begin(['id' => 'sort-form']); ?>

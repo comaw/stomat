@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use frontend\models\Item;
+use frontend\models\LoginError;
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -11,7 +12,6 @@ use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
 /**
@@ -39,12 +39,6 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
                 ],
             ],
         ];
@@ -89,13 +83,20 @@ class SiteController extends Controller
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
+        $errorLogin = null;
         $model = new LoginForm();
+        $errorLogin = LoginError::getLog();
+        if($errorLogin){
+            $model = new LoginForm(['scenario' => 'error']);
+        }
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            LoginError::del();
             return $this->goBack();
         } else {
+            $errorLogin = LoginError::getLog();
             return $this->render('login', [
                 'model' => $model,
+                'errorLogin' => $errorLogin,
             ]);
         }
     }

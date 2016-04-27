@@ -20,6 +20,10 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
+
+    public $pass;
+    public $confirm;
+
     /**
      * @inheritdoc
      */
@@ -28,12 +32,23 @@ class User extends \yii\db\ActiveRecord
         return '{{%user}}';
     }
 
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert)){
+            $this->updated_at = time();
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
+            [['username', 'email', 'pass'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
+            [['username', 'email', 'pass'], 'filter', 'filter' => 'strip_tags', 'skipOnArray' => true],
             [['username', 'email', 'password_hash'], 'required'],
             [['role'], 'string'],
             [['status', 'created_at', 'updated_at'], 'integer'],
@@ -41,6 +56,9 @@ class User extends \yii\db\ActiveRecord
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['email'], 'unique'],
+            [['email'], 'email'],
+            [['confirm'], 'compare', 'compareAttribute'=> 'pass', 'message'=> Yii::t('app', 'Пароли не совпадают') ],
+            [['pass'], 'string', 'max' => 32, 'min' => 6],
         ];
     }
 
@@ -51,15 +69,17 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'username' => Yii::t('app', 'Username'),
+            'username' => Yii::t('app', 'Ф.И.О.'),
             'email' => Yii::t('app', 'Email'),
-            'role' => Yii::t('app', 'Role'),
+            'role' => Yii::t('app', 'Роль'),
             'auth_key' => Yii::t('app', 'Auth Key'),
             'password_hash' => Yii::t('app', 'Password Hash'),
             'password_reset_token' => Yii::t('app', 'Password Reset Token'),
-            'status' => Yii::t('app', 'Status'),
+            'status' => Yii::t('app', 'Статус'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'pass' => Yii::t('app', 'Пароль'),
+            'confirm' => Yii::t('app', 'Повторите пароль'),
         ];
     }
 }

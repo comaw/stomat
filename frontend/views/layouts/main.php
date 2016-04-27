@@ -63,8 +63,14 @@ AppAsset::register($this);
             <span class="phone">
                 <i class="fa fa-phone-square"></i> <?=Yii::t('app', 'Tel.:')?> <?=Settings::getSettings('site_phone')?>
             </span>
+            <?php if(Yii::$app->user->isGuest){ ?>
             <a href="<?=Url::toRoute(['site/signup'])?>" class="pull-right" title="<?=Html::encode(Yii::t('app', 'Регистрация'))?>"><i class="fa fa-arrow-circle-down"></i> <?=Yii::t('app', 'Регистрация')?></a>
             <a href="<?=Url::toRoute(['site/login'])?>" class="pull-right" title="<?=Html::encode(Yii::t('app', 'Войти'))?>"><i class="fa fa-sign-in"></i> <?=Yii::t('app', 'Войти')?></a>
+            <?php } ?>
+            <?php if(!Yii::$app->user->isGuest){ ?>
+                <a href="<?=Url::toRoute(['site/logout'])?>" onclick="return confirm('<?=Yii::t('app', 'Вы уверенны, что хотите покинуть сайт?')?>');" class="pull-right" title="<?=Html::encode(Yii::t('app', 'Выход'))?>"><i class="fa fa-eye-slash"></i> <?=Yii::t('app', 'Выход')?></a>
+                <a href="<?=Url::toRoute(['user/profile'])?>" class="pull-right" title="<?=Html::encode(Yii::t('app', 'Настройки'))?>"><i class="fa fa-cog"></i> <?=Yii::t('app', 'Настройки')?></a>
+            <?php } ?>
             <a href="#" class="pull-right" id="nav-search"><i class="fa fa-search"></i> <?=Yii::t('app', 'Поиск')?></a>
             <a href="#" class="pull-right hidden" id="nav-search-close"><i class="fa fa-times"></i></a>
             <form class="pull-right hidden" role="search" id="nav-search-form" action="<?=Url::toRoute(['search/index'])?>" method="get" accept-charset="<?=Yii::$app->charset?>">
@@ -117,6 +123,7 @@ AppAsset::register($this);
     </div>
     <?php } ?>
     <div class="container">
+        <?= Alert::widget() ?>
         <div class="row">
             <div class="col-sm-3">
                 <div class="shop-category first-child"><?=Yii::t('app', 'Категории')?></div>

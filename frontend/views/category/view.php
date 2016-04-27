@@ -27,7 +27,7 @@ Yii::$app->view->registerMetaTag([
     'content' => $category->description.(Yii::$app->request->get('page')? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page') - 1) : ''),
 ]);
 ?>
-<h1><?=$category->name?></h1>
+<h1 class="headline first-child text-color"><?=$category->name?></h1>
 <ul class="nav nav-tabs nav-justified">
     <?php if($manufacturers){ ?>
         <li class="<?=Url::current() == Url::toRoute(['category/view', 'url' => $category->url]) ? 'active' : ''?>"><a href="<?=Url::toRoute(['category/view', 'url' => $category->url])?>"><?=Yii::t('app', 'Все')?></a></li>
