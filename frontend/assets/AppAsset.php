@@ -18,6 +18,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        '//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css',
         'template/font-awesome.min.css',
         'template/animate.css',
         'template/css',
@@ -27,6 +28,7 @@ class AppAsset extends AssetBundle
         'template/custom.css',
     ];
     public $js = [
+        '//code.jquery.com/ui/1.11.4/jquery-ui.js',
         'template/scrolltopcontrol.js',
         'template/jquery.sticky.js',
         'template/custom.js',

@@ -4,6 +4,11 @@
  * stomat
  */
 
+$("input[name=search_text]" ).autocomplete({
+    source: "/subscribe/autocomplete/",
+    minLength: 2
+});
+
 $('#sortform-sort').change(function(){
     $('#sort-form').submit();
 });

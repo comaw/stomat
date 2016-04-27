@@ -38,6 +38,21 @@ AppAsset::register($this);
     <?php $this->head() ?>
     <style type="text/css" id="Documents_extension_style">@keyframes documents_linkInserted { from{ clip:rect(1px, auto, auto, auto); }to{ clip:rect(0px, auto, auto, auto); } }@-webkit-keyframes documents_linkInserted { from{ clip:rect(1px, auto, auto, auto); }to{ clip:rect(0px, auto, auto, auto); } }a { animation: documents_linkInserted 1ms; -webkit-animation: documents_linkInserted 1ms; }</style>
     <link rel="shortcut icon" href="/css/favicon.ico">
+    <style>
+        .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            z-index: 9999;
+        }
+        /* IE 6 doesn't support max-height
+         * we use height instead, but this forces the menu to always be this tall
+         */
+        * html .ui-autocomplete {
+            height: 200px;
+        }
+    </style>
 </head>
 <body class="body-green">
 <?php $this->beginBody() ?>
