@@ -131,6 +131,12 @@ return [
 
                 'search/<url:.+>' => 'search/index',
 
+                [
+                    'pattern' => 'sitemap',
+                    'route' => 'site/sitemap',
+                    'suffix' => '.xml',
+                ],
+
                 '<controller:\w+>/<id:\d+>/<action:(create|update|delete)>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 '<controller:\w+>' => '<controller>/index',

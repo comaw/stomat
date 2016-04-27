@@ -36,6 +36,7 @@ $this->registerMetaTag(['name' => 'description', 'content' => $this->title]);
                         <?= Html::submitButton(Yii::t('app', 'Войти'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                     </div>
                 <?php ActiveForm::end(); ?>
+                <a href="<?=\yii\helpers\Url::toRoute(['site/requestpasswordreset'])?>" title="<?=Html::encode(Yii::t('app', 'Забыли пароль?'))?>"><?=Yii::t('app', 'Забыли пароль?')?></a>
             </div>
         </div>
     </div>

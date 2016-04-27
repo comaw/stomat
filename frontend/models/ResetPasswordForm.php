@@ -13,10 +13,22 @@ class ResetPasswordForm extends Model
 {
     public $password;
 
+
+
     /**
      * @var \common\models\User
      */
     private $_user;
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'password' => Yii::t('app', 'Пароль'),
+        ];
+    }
 
 
     /**
@@ -29,11 +41,11 @@ class ResetPasswordForm extends Model
     public function __construct($token, $config = [])
     {
         if (empty($token) || !is_string($token)) {
-            throw new InvalidParamException('Password reset token cannot be blank.');
+            throw new InvalidParamException(Yii::t('app', 'Маркер сброса пароля не может быть пустым.'));
         }
         $this->_user = User::findByPasswordResetToken($token);
         if (!$this->_user) {
-            throw new InvalidParamException('Wrong password reset token.');
+            throw new InvalidParamException(Yii::t('app', 'Неправильный маркер сброса пароля.'));
         }
         parent::__construct($config);
     }
@@ -44,6 +56,7 @@ class ResetPasswordForm extends Model
     public function rules()
     {
         return [
+            ['password', 'filter', 'filter' => 'trim'],
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
         ];

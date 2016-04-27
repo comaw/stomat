@@ -77,6 +77,9 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         if($user->save()){
+            $description = new UserDescription();
+            $description->id = $user->id;
+            $description->save();
             Yii::$app->mail
                 ->compose(
                     ['html' => 'signup-html', 'text' => 'signup-text'],

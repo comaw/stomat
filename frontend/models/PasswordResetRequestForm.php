@@ -12,6 +12,19 @@ class PasswordResetRequestForm extends Model
 {
     public $email;
 
+    public $verifyCode;
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'email' => Yii::t('app', 'Email'),
+            'verifyCode' => Yii::t('app', 'Я не робот'),
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -24,8 +37,9 @@ class PasswordResetRequestForm extends Model
             ['email', 'exist',
                 'targetClass' => '\common\models\User',
                 'filter' => ['status' => User::STATUS_ACTIVE],
-                'message' => 'There is no user with such email.'
+                'message' =>  Yii::t('app', 'Нет ни одного пользователя с такой электронной почтой.')
             ],
+            [['verifyCode'], \common\recaptcha\ReCaptchaValidator::className(), 'secret' => \common\recaptcha\ReCaptcha::SECRET_KEY],
         ];
     }
 
@@ -62,7 +76,7 @@ class PasswordResetRequestForm extends Model
             )
             ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->params['site_name']])
             ->setTo($this->email)
-            ->setSubject('Password reset for ' . \Yii::$app->name)
+            ->setSubject(Yii::t('app', 'Запрос восстановления пароля для сайта {site}', ['site' => Yii::$app->name]))
             ->send();
     }
 }

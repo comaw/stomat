@@ -1,8 +1,11 @@
 <?php
 namespace frontend\controllers;
 
+use frontend\models\Category;
 use frontend\models\Item;
 use frontend\models\LoginError;
+use frontend\models\Manufacturer;
+use frontend\models\News;
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -10,6 +13,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
+use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\AccessControl;
@@ -101,14 +105,22 @@ class SiteController extends Controller
         }
     }
 
-    public function actionTest()
+    public function actionSitemap()
     {
-//        Yii::$app->mail->compose()
-//            ->setTo('comawww@gmail.com')
-//            ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->params['site_name']])
-//            ->setSubject('Test')
-//            ->setTextBody('Test mail')
-//            ->send();
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        $headers = Yii::$app->response->headers;
+        $headers->add('Content-Type', 'text/xml');
+
+        $models = Category::find()->orderBy("id desc")->limit(200)->all();
+        $news = News::find()->orderBy("id desc")->limit(200)->all();
+        $manufacturer = Manufacturer::find()->orderBy("id desc")->limit(200)->all();
+        $item = Item::find()->orderBy("id desc")->limit(2000)->all();
+        return $this->renderPartial('sitemap', [
+            'models' => $models,
+            'news' => $news,
+            'manufacturer' => $manufacturer,
+            'item' => $item,
+        ]);
     }
 
     /**
@@ -172,16 +184,16 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionRequestPasswordReset()
+    public function actionRequestpasswordreset()
     {
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Проверьте свою электронную почту для получения дальнейших инструкций.'));
 
-                return $this->goHome();
+                return $this->refresh();
             } else {
-                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                Yii::$app->session->setFlash('error', Yii::t('app', 'К сожалению, мы не можем сбросить пароль для электронной почты при условии.'));
             }
         }
 
@@ -197,7 +209,7 @@ class SiteController extends Controller
      * @return mixed
      * @throws BadRequestHttpException
      */
-    public function actionResetPassword($token)
+    public function actionResetpassword($token)
     {
         try {
             $model = new ResetPasswordForm($token);
@@ -206,9 +218,9 @@ class SiteController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'New password was saved.');
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Новый пароль был сохранен.'));
 
-            return $this->goHome();
+            return $this->redirect(Url::toRoute(['site/login']));
         }
 
         return $this->render('resetPassword', [
