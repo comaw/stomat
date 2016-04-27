@@ -39,9 +39,12 @@ Yii::$app->view->registerMetaTag([
 <div class="row">
     <div class="col-xs-12 text-right">
         <?php $form = ActiveForm::begin(['id' => 'sort-form']); ?>
-            <div class="col-sm-3 col-xs-12 pull-right">
-                <?= $form->field($sortForm, 'sort')->dropDownList(SortForm::listSort(), ['prompt' => Yii::t('app', '-- Сортировать --')])->label('') ?>
-            </div>
+        <div class="col-sm-3 col-xs-12 pull-right">
+            <?= $form->field($sortForm, 'stock')->dropDownList(SortForm::listStock()) ?>
+        </div>
+        <div class="col-sm-3 col-xs-12 pull-right">
+            <?= $form->field($sortForm, 'sort')->dropDownList(SortForm::listSort(), ['prompt' => Yii::t('app', '-- Сортировать --')]) ?>
+        </div>
         <?php ActiveForm::end(); ?>
     </div>
 </div>
@@ -59,7 +62,11 @@ Yii::$app->view->registerMetaTag([
                             <?php } ?>
                         </p>
                         <p class="price">
-                            <span class="new"><?=Yii::$app->formatter->asInteger($model->price)?> <?=$model->currency0->title?></span>
+                            <?php if($model->stock){ ?>
+                                <span class="new text-success"><?=Yii::$app->formatter->asInteger($model->price)?> <?=$model->currency0->title?></span>
+                            <?php }else{ ?>
+                                <span class="new text-danger"><?=Yii::t('app', 'Нет в наличии')?></span>
+                            <?php } ?>
                         </p>
                         <a href="#" class="btn btn-sm btn-color"><i class="fa fa-shopping-cart"></i> <?=Yii::t('app', 'В корзину')?></a>
                     </div>

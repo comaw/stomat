@@ -13,11 +13,13 @@ use Yii;
 
 /**
  * @property string $sort
+ * @property string $stock
  */
 
 class SortForm extends Model
 {
     public $sort;
+    public $stock;
 
     /**
      * @inheritdoc
@@ -26,6 +28,7 @@ class SortForm extends Model
     {
         return [
             ['sort', 'filter', 'filter' => 'trim'],
+            ['stock', 'in', 'range' => [1, 2]],
             ['sort', 'in', 'range' => array_keys(self::listSort())],
         ];
     }
@@ -37,6 +40,14 @@ class SortForm extends Model
     {
         return [
             'sort' => Yii::t('app', 'Сортировать'),
+            'stock' => Yii::t('app', 'Наличие товара'),
+        ];
+    }
+
+    public static function listStock(){
+        return [
+            1 => Yii::t('app', 'Все товары'),
+            2 => Yii::t('app', 'Только в наличии'),
         ];
     }
 
@@ -47,6 +58,23 @@ class SortForm extends Model
             'id desc' => Yii::t('app', 'Новые поступления'),
             'name asc' => Yii::t('app', 'По имени'),
         ];
+    }
+
+    public function getStock(){
+        $stock = 1;
+        if($this->stock){
+            Yii::$app->session->set('stock', $this->stock);
+            $stock = (int)$this->stock;
+        }
+        if(Yii::$app->session->get('stock')){
+            $stock = Yii::$app->session->get('stock');
+            $this->stock = $stock;
+        }
+        if(!$this->validate()){
+            $stock = 1;
+            $this->stock = $stock;
+        }
+        return $stock;
     }
 
     public function getSort(){

@@ -17,18 +17,24 @@ class CategoryController extends \yii\web\Controller
     {
         $sortForm = new SortForm();
         $toSort = $sortForm->getSort();
+        $toStock = $sortForm->getStock();
         if($sortForm->load(Yii::$app->request->post()) && $sortForm->validate()){
             $toSort = $sortForm->getSort();
+            $toStock = $sortForm->getStock();
         }else{
             $sortForm->sort = $sortForm->getSort();
+            $sortForm->stock = $sortForm->getStock();
         }
         $category = Category::find()->where("url = :url", [':url' => $url])->one();
         if(!$category){
             throw new HttpException(404, 'Not found');
         }
-        $query = Item::find()->with(['itemImgs', 'currency0', 'manufacturer0'])->where("category = :category AND stock > 0", [
+        $query = Item::find()->with(['itemImgs', 'currency0', 'manufacturer0'])->where("category = :category", [
             ':category' => $category->id
         ]);
+        if($toStock == 2){
+            $query->andWhere("stock > 0");
+        }
         if($manufacturer){
             $manufacturer = Manufacturer::find()->where("url = :url", [':url' => $manufacturer])->one();
             if(!$manufacturer){
@@ -44,7 +50,7 @@ class CategoryController extends \yii\web\Controller
             ->all();
         $manufacturers = Manufacturer::find()
             ->innerJoin('{{%item}}', '{{%item}}.manufacturer = {{%manufacturer}}.id')
-            ->where('{{%item}}.category = :category AND {{%item}}.stock > 0', [
+            ->where('{{%item}}.category = :category', [
                 ':category' => $category->id
             ])
             ->orderBy('name, id desc')->all();
@@ -55,6 +61,7 @@ class CategoryController extends \yii\web\Controller
             'manufacturers' => $manufacturers,
             'manufacturerCurrent' => $manufacturer,
             'sortForm' => $sortForm,
+            'toStock' => $toStock,
         ]);
     }
 

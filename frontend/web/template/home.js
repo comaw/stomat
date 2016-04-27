@@ -13,6 +13,10 @@ $('#sortform-sort').change(function(){
     $('#sort-form').submit();
 });
 
+$('#sortform-stock').change(function(){
+    $('#sort-form').submit();
+});
+
 $('#subscribe-ok').click(function(){
     var data = $('#subscribe-email').val();
     if(!data){

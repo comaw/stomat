@@ -26,18 +26,24 @@ class ManufacturerController extends \yii\web\Controller
     {
         $sortForm = new SortForm();
         $toSort = $sortForm->getSort();
+        $toStock = $sortForm->getStock();
         if($sortForm->load(Yii::$app->request->post()) && $sortForm->validate()){
             $toSort = $sortForm->getSort();
+            $toStock = $sortForm->getStock();
         }else{
             $sortForm->sort = $sortForm->getSort();
+            $sortForm->stock = $sortForm->getStock();
         }
         $manufacturer = Manufacturer::find()->where("url = :url", [':url' => $url])->one();
         if(!$manufacturer){
             throw new HttpException(404, 'Not found');
         }
-        $query = Item::find()->with(['itemImgs', 'currency0', 'manufacturer0'])->where("manufacturer = :manufacturer AND stock > 0", [
+        $query = Item::find()->with(['itemImgs', 'currency0', 'manufacturer0'])->where("manufacturer = :manufacturer", [
             ':manufacturer' => $manufacturer->id
         ]);
+        if($toStock == 2){
+            $query->andWhere("stock > 0");
+        }
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count()]);
         $models = $query->offset($pages->offset)
@@ -49,6 +55,7 @@ class ManufacturerController extends \yii\web\Controller
             'manufacturer' => $manufacturer,
             'pages' => $pages,
             'sortForm' => $sortForm,
+            'toStock' => $toStock,
         ]);
     }
 }

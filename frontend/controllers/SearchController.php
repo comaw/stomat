@@ -13,18 +13,24 @@ class SearchController extends \yii\web\Controller
     {
         $sortForm = new SortForm();
         $toSort = $sortForm->getSort();
+        $toStock = $sortForm->getStock();
         if($sortForm->load(Yii::$app->request->post()) && $sortForm->validate()){
             $toSort = $sortForm->getSort();
+            $toStock = $sortForm->getStock();
         }else{
             $sortForm->sort = $sortForm->getSort();
+            $sortForm->stock = $sortForm->getStock();
         }
         $searchText = $search_text.'%';
         if(mb_strlen($searchText, Yii::$app->charset) < 2){
             return $this->render('indexno');
         }
-        $query = Item::find()->with(['itemImgs', 'currency0', 'manufacturer0'])->where("name LIKE :name AND stock > 0", [
+        $query = Item::find()->with(['itemImgs', 'currency0', 'manufacturer0'])->where("name LIKE :name", [
             ':name' => $searchText
         ]);
+        if($toStock == 2){
+            $query->andWhere("stock > 0");
+        }
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count()]);
         $models = $query->offset($pages->offset)
@@ -36,6 +42,7 @@ class SearchController extends \yii\web\Controller
             'pages' => $pages,
             'search_text' => $search_text,
             'sortForm' => $sortForm,
+            'toStock' => $toStock,
         ]);
     }
 }
