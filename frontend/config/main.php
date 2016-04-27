@@ -129,7 +129,7 @@ return [
                 'news' => 'news/index',
                 'news/<url:.+>' => 'news/view',
 
-                'search' => 'search/index',
+                'search/<url:.+>' => 'search/index',
 
                 '<controller:\w+>/<id:\d+>/<action:(create|update|delete)>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

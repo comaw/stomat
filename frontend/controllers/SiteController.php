@@ -100,6 +100,16 @@ class SiteController extends Controller
         }
     }
 
+    public function actionTest()
+    {
+//        Yii::$app->mail->compose()
+//            ->setTo('comawww@gmail.com')
+//            ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->params['site_name']])
+//            ->setSubject('Test')
+//            ->setTextBody('Test mail')
+//            ->send();
+    }
+
     /**
      * Logs out the current user.
      *
