@@ -22,6 +22,7 @@ use Yii;
  * @property string $price
  * @property string $unit
  * @property integer $stock
+ * @property integer $home
  * @property integer $warranty
  * @property integer $delivery
  * @property integer $delivery_time
@@ -81,7 +82,7 @@ class Item extends \yii\db\ActiveRecord
             [['name', 'url', 'title', 'description', 'packing', 'code', 'unit'], 'filter', 'filter' => 'strip_tags', 'skipOnArray' => true],
             [['name', 'url', 'code', 'currency', 'category'], 'required'],
             [['content'], 'string'],
-            [['currency', 'category', 'manufacturer', 'country', 'stock', 'warranty', 'delivery', 'delivery_time'], 'integer'],
+            [['currency', 'category', 'manufacturer', 'country', 'stock', 'warranty', 'delivery', 'delivery_time', 'home'], 'integer'],
             [['price'], 'number'],
             [['created'], 'safe'],
             [['name', 'url', 'title', 'description', 'packing'], 'string', 'max' => 255],
@@ -106,6 +107,7 @@ class Item extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
             'url' => Yii::t('app', 'Url'),
+            'home' =>  Yii::t('app', 'Отображать на главной'),
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
             'content' => Yii::t('app', 'Content'),
@@ -183,6 +185,10 @@ class Item extends \yii\db\ActiveRecord
 
     public function getStockName(){
         return isset(self::yesOrNo()[$this->stock]) ? self::yesOrNo()[$this->stock] : null;
+    }
+
+    public function getHomeName(){
+        return isset(self::yesOrNo()[$this->home]) ? self::yesOrNo()[$this->home] : null;
     }
 
     public function getDeliveryName(){

@@ -31,23 +31,23 @@ return [
         'cacheFile' => [
             'class' => 'yii\caching\FileCache',
         ],
-//        'assetManager' => [
-//            'bundles' => [
-//                'yii\web\JqueryAsset' => [
-//                    'sourcePath' => null,
-//                    'js' => ['js/jquery-2.1.1.min.js']
-//                ],
-//                'yii\bootstrap\BootstrapPluginAsset' => [
-//                    'js'=>[]
-//                ],
-//                'yii\bootstrap\BootstrapAsset' => [
-//                    'sourcePath' => null,
-//                    'css' => ['css/bootstrap.min.css'],
-//                    'js' => ['js/bootstrap.min.js'],
-//                ],
-//
-//            ],
-//        ],
+        'assetManager' => [
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'sourcePath' => null,
+                    'js' => ['template/jquery.min.js']
+                ],
+                'yii\bootstrap\BootstrapPluginAsset' => [
+                    'js'=>[]
+                ],
+                'yii\bootstrap\BootstrapAsset' => [
+                    'sourcePath' => null,
+                    'css' => ['template/bootstrap.min.css'],
+                    'js' => ['template/bootstrap.min.js'],
+                ],
+
+            ],
+        ],
         'mail' => [
             'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',
@@ -115,8 +115,21 @@ return [
                 '' => 'site/index',
                 'signin' => 'site/login',
                 'signup' => 'site/signup',
+                'contact' => 'site/contact',
                 'passwordreset' => 'site/requestpasswordreset',
                 'resetpassword' => 'site/resetpassword',
+
+                'page/<url:.+>' => 'page/view',
+                'category/<url:.+>/<manufacturer:.+>' => 'category/view',
+                'category/<url:.+>' => 'category/view',
+                'manufacturer' => 'manufacturer/index',
+                'manufacturer/<url:.+>' => 'manufacturer/view',
+                'item/<url:.+>' => 'item/view',
+
+                'news' => 'news/index',
+                'news/<url:.+>' => 'news/view',
+
+                'search' => 'search/index',
 
                 '<controller:\w+>/<id:\d+>/<action:(create|update|delete)>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

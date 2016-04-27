@@ -16,7 +16,9 @@ use yii\helpers\Html;
 class Breadcrumbs extends \yii\widgets\Breadcrumbs
 {
     public $activeItemTemplate = "<!--noindex--><li class=\"active\">{link}</li><!--/noindex-->\n";
-    public $itemTemplate = "<li>{link}</li> <li>/</li>\n";
+    public $itemTemplate = "<li>{link}</li>\n";
+    public $tag = 'ol';
+    public $options = ['class' => 'breadcrumb pull-right hidden-xs'];
 
     protected function renderItem($link, $template)
     {

@@ -27,11 +27,26 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'name',
-            'url',
+            [
+                'attribute' => 'name',
+                'contentOptions' => ['style' => 'word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap; width: 100px; '],
+                'format' => 'raw',
+                'value' => function($data){
+                    return $data->name;
+                },
+            ],
+            [
+                'attribute' => 'url',
+                'contentOptions' => ['style' => 'word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap; width: 100px; '],
+                'format' => 'raw',
+                'value' => function($data){
+                    return $data->url;
+                },
+            ],
              'code',
             [
                 'attribute' => 'category',
+                'contentOptions' => ['style' => 'word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap; width: 100px; '],
                 'format' => 'raw',
                 'value' => function($data){
                     return $data->category0->name;
@@ -53,7 +68,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'filter' => Item::yesOrNo(),
             ],
-
+            [
+                'attribute' => 'home',
+                'format' => 'raw',
+                'value' => function($data){
+                    return $data->getHomeName();
+                },
+                'filter' => Item::yesOrNo(),
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

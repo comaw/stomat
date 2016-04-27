@@ -1,4 +1,5 @@
 <?php
 return [
-    'adminEmail' => 'admin@example.com',
+    'adminEmail' => 'stomat.plus.zt@gmail.com',
+    'pageSize' => 12,
 ];

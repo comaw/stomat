@@ -79,16 +79,19 @@ if($ItemCharacter){
         </div>
     </div>
     <div class="row">
+        <div class="col-sm-2 col-xs-12">
+            <?= $form->field($model, 'home')->dropDownList(Item::yesOrNo()) ?>
+        </div>
         <div class="col-sm-3 col-xs-12">
             <?= $form->field($model, 'warranty')->dropDownList(Item::warrantyList(), ['prompt' => Yii::t('app', '-- Выберите срок гарантии --')]) ?>
         </div>
-        <div class="col-sm-3 col-xs-12">
+        <div class="col-sm-2 col-xs-12">
             <?= $form->field($model, 'delivery')->dropDownList(Item::yesOrNo(true)) ?>
         </div>
-        <div class="col-sm-3 col-xs-12">
+        <div class="col-sm-2 col-xs-12">
             <?= $form->field($model, 'delivery_time')->textInput()->hint(Yii::t('app', 'Напримет: 11 дней')) ?>
         </div>
-        <div class="col-sm-3 col-xs-12">
+        <div class="col-sm-2 col-xs-12">
             <?= $form->field($model, 'packing')->textInput(['maxlength' => true])->hint(Yii::t('app', 'Напримет: коробка')) ?>
         </div>
     </div>

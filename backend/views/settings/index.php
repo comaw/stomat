@@ -21,11 +21,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
             'name',
-            'value',
+            [
+                'attribute' => 'value',
+                'contentOptions' => ['style' => 'word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap; width: 300px; '],
+                'format' => 'raw',
+                'value' => function($data){
+                    return Html::encode($data->value);
+                },
+            ],
             'title',
-            'last',
+//            'last',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
