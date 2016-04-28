@@ -106,4 +106,7 @@ return [
     'Password' => 'Пароль',
 
     'File' => 'Файл',
+    'Subscribes' => 'Подпищики',
+    'Subscribe' => 'Подпищик',
+    'Create Subscribe' => 'Создать подпищика',
 ];

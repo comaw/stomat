@@ -60,6 +60,7 @@ AppAsset::register($this);
                 ['label' => Yii::t('app', 'Страны'), 'url' => ['/country/index']],
                 ['label' => Yii::t('app', 'Характеристики товара'), 'url' => ['/characteristic/index']],
                 ['label' => Yii::t('app', 'Валюта'), 'url' => ['/currency/index']],
+                ['label' => Yii::t('app', 'Подпищики'), 'url' => ['/subscribe/index']],
             ]
         ];
         $menuItems[] = '<li>'
