@@ -38,7 +38,7 @@ use frontend\models\Order;
 
     <?=Yii::t('app', 'Товары')?>:
 
-    <?php $items = OrderItem::find()->where("order = :order", [':order' => $order->id])->all() ?>
+    <?php $items = OrderItem::find()->where("orders = :orders", [':orders' => $order->id])->all() ?>
     <?php foreach($items AS $item){ ?>
 
         

@@ -109,4 +109,8 @@ return [
     'Subscribes' => 'Подпищики',
     'Subscribe' => 'Подпищик',
     'Create Subscribe' => 'Создать подпищика',
+
+    'Orders' => 'Заказы',
+    'Order' => 'Заказ',
+    'Create Order' => 'Создать заказ',
 ];

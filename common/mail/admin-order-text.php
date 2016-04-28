@@ -39,11 +39,11 @@ use frontend\models\Order;
 
     <?=Yii::t('app', 'Товары')?>:
 
-    <?php $items = OrderItem::find()->where("order = :order", [':order' => $order->id])->all() ?>
+    <?php $items = OrderItem::find()->where("orders = :orders", [':orders' => $order->id])->all() ?>
     <?php foreach($items AS $item){ ?>
 
         
-            <?=$item->item0->name?> (<?=$item->count?> за <?=$item->price_all?> грн)
+            <?=$item->item0->name?> (<?=$item->count?> шт за <?=$item->price_all?> грн)
         
 
     <?php } ?>
