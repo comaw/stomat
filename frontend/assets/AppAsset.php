@@ -31,6 +31,7 @@ class AppAsset extends AssetBundle
     public $js = [
         '//code.jquery.com/ui/1.11.4/jquery-ui.js',
         'template/lightbox.min.js',
+        'template/inputmask/jquery.inputmask.bundle.min.js',
         'template/scrolltopcontrol.js',
         'template/jquery.sticky.js',
         'template/custom.js',

@@ -24,7 +24,7 @@ $this->registerMetaTag(['name' => 'description', 'content' => $this->title]);
                 <?= $form->field($model, 'pass')->passwordInput()->hint(Yii::t('app', 'Оставить пустым, если не нужно изменять!')) ?>
                 <?= $form->field($model, 'confirm')->passwordInput() ?>
 
-                <?= $form->field($description, 'phone')->textInput() ?>
+                <?= $form->field($description, 'phone')->textInput(['placeholder' => '+38 (099) 999-99-99']) ?>
                 <?= $form->field($description, 'zipcode')->textInput() ?>
                 <?= $form->field($description, 'state')->textInput() ?>
                 <?= $form->field($description, 'city')->textInput() ?>

@@ -130,7 +130,7 @@ return [
                 'news/<url:.+>' => 'news/view',
 
                 'search/<url:.+>' => 'search/index',
-
+                'cart' => 'cart/index',
                 [
                     'pattern' => 'sitemap',
                     'route' => 'site/sitemap',

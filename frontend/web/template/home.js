@@ -27,6 +27,8 @@ $('#subscribe-ok').click(function(){
         type: "POST",
         url: "/subscribe/index/",
         data: {email : data},
+        dataType: 'json',
+        cache: false,
         success: function(msg){
             if(!msg.e){
                 $('#subscribe-email').val('');
@@ -35,3 +37,45 @@ $('#subscribe-ok').click(function(){
         }
     });
 });
+
+$('#order-phone').inputmask("+38 (099) 999-99-99");
+$('#userdescription-phone').inputmask("+38 (099) 999-99-99");
+
+var cart = {
+
+    dataCount: 0,
+    dataItem: null,
+    count: function(){
+        var c = $('input[name=countItem]').val() * 1;
+        if(c < 1){
+            c = 1;
+        }
+        this.dataCount = c;
+        return c;
+    },
+    add: function(id){
+        this.count();
+        this.dataItem = id;
+        this.go();
+        return false;
+    },
+    go: function(){
+        var self = this;
+        $.ajax({
+            type: "POST",
+            url: "/cart/add/",
+            dataType: 'json',
+            data: {count : self.dataCount, id : self.dataItem},
+            cache: false,
+            error: function(){
+                alert('Произошла ошибка, обновите страницу и попробуйте еще раз.');
+            },
+            success: function(msg){
+                if(!msg.e){
+                    $('#cartItemCount').html(msg.count);
+                }
+                $('#cartAdd').modal('show');
+            }
+        });
+    }
+};

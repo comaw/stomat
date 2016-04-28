@@ -50,7 +50,7 @@ Yii::$app->view->registerMetaTag([
                                 <span class="new text-danger"><?=Yii::t('app', 'Нет в наличии')?></span>
                             <?php } ?>
                         </p>
-                        <a href="#" class="btn btn-sm btn-color"><i class="fa fa-shopping-cart"></i> <?=Yii::t('app', 'В корзину')?></a>
+                        <a href="javascript:void(0);" class="btn btn-sm btn-color" onclick="cart.add(<?=(int)$model->id?>);"><i class="fa fa-shopping-cart"></i> <?=Yii::t('app', 'В корзину')?></a>
                     </div>
                 </div>
             <?php } ?>

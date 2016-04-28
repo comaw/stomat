@@ -34,7 +34,7 @@ Yii::$app->view->registerMetaTag([
                     <p class="price">
                         <span class="new"><?=Yii::$app->formatter->asInteger($model->price)?> <?=$model->currency0->title?></span>
                     </p>
-                    <a href="#" class="btn btn-sm btn-color"><i class="fa fa-shopping-cart"></i> <?=Yii::t('app', 'В корзину')?></a>
+                    <a href="javascript:void(0);" class="btn btn-sm btn-color addToCart"><i class="fa fa-shopping-cart"></i> <?=Yii::t('app', 'В корзину')?></a>
                 </div>
             </div>
             <?php } ?>

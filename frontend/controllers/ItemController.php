@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use frontend\models\Item;
 use yii\web\HttpException;
+use Yii;
 
 class ItemController extends \yii\web\Controller
 {

@@ -56,6 +56,24 @@ AppAsset::register($this);
 </head>
 <body class="body-green">
 <?php $this->beginBody() ?>
+<div class="modal fade" id="cartAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><?=Yii::t('app', 'Товар успешно добавлен в корзину')?></h4>
+            </div>
+            <div class="modal-body">
+                <?=Yii::t('app', 'Товар успешно добавлен в корзину! Вы можете продолжить покупки или оформить заказ.')?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?=Yii::t('app', 'Закрыть')?></button>
+                <a href="<?=Url::toRoute(['cart/index'])?>" class="btn btn-primary"><?=Yii::t('app', 'Оформить заказ')?></a>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
 <div class="mini-navbar mini-navbar-dark hidden-xs">
     <div class="container">
         <div class="col-sm-12">

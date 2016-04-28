@@ -10,6 +10,10 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = Yii::t('app', 'Регистрация');
 $this->params['breadcrumbs'][] = $this->title;
+Yii::$app->view->registerMetaTag([
+    'name' => 'description',
+    'content' => Yii::t('app', 'Регистрация'),
+]);
 ?>
 <div class="site-signup">
     <div class="sign-form">

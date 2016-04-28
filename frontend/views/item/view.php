@@ -103,10 +103,10 @@ Yii::$app->view->registerMetaTag([
                     <?=Yii::t('app', 'Цена')?>: <span class="price"><?=Yii::$app->formatter->asInteger($model->price)?> <?=$model->currency0->title?>/<?=$model->unit?></span>
                     <meta itemprop="price" content="<?=Yii::$app->formatter->asInteger($model->price)?>">
                     <meta itemprop="priceCurrency" content="<?=$model->currency0->name?>">
-                    <input type="number" name="pcs" value="1" class="form-control">
+                    <input type="number" name="countItem" value="1" class="form-control">
                 </div>
                 <br>
-                <a class="btn btn-color" href="#"><i class="fa fa-shopping-cart"></i> <?=Yii::t('app', 'В корзину')?></a>
+                <a class="btn btn-color" href="javascript:void(0);" onclick="cart.add(<?=(int)$model->id?>);"><i class="fa fa-shopping-cart"></i> <?=Yii::t('app', 'В корзину')?></a>
                 <link itemprop="availability" href="http://schema.org/InStock">
             </div>
             <?php } ?>
@@ -153,7 +153,7 @@ Yii::$app->view->registerMetaTag([
                                 <span class="new text-danger"><?=Yii::t('app', 'Нет в наличии')?></span>
                             <?php } ?>
                         </p>
-                        <a href="#" class="btn btn-sm btn-color"><i class="fa fa-shopping-cart"></i> <?=Yii::t('app', 'В корзину')?></a>
+                        <a href="javascript:void(0);" class="btn btn-sm btn-color" onclick="cart.add(<?=(int)$item->id?>);"><i class="fa fa-shopping-cart"></i> <?=Yii::t('app', 'В корзину')?></a>
                     </div>
                 </div>
                 <?php } ?>

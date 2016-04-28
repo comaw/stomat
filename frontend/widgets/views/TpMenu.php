@@ -7,6 +7,7 @@
 
 use yii\helpers\Url;
 use yii\bootstrap\Html;
+use frontend\models\Cart;
 
 ?>
 <ul class="nav navbar-nav navbar-right">
@@ -23,6 +24,6 @@ use yii\bootstrap\Html;
         <a href="<?=Url::toRoute(['page/view', 'url' => 'vozvrat-i-obmen'])?>" class="bg-hover-color" title="<?=Html::encode(Yii::t('app', 'Возврат/обмен'))?>"><?=Yii::t('app', 'Возврат/обмен')?></a>
     </li>
     <li class="btn-color">
-        <a href="#" class="bg-hover-color" title="<?=Html::encode(Yii::t('app', 'Корзина'))?>"><?=Yii::t('app', 'Корзина')?> (0)</a>
+        <a href="<?=Url::toRoute(['cart/index'])?>" class="bg-hover-color" title="<?=Html::encode(Yii::t('app', 'Корзина'))?>"><?=Yii::t('app', 'Корзина')?> (<span id="cartItemCount"><?=Cart::itemCountInCart()?></span>)</a>
     </li>
 </ul>
