@@ -20,6 +20,7 @@ class AppAsset extends AssetBundle
     public $css = [
         '//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css',
         'template/font-awesome.min.css',
+        'template/lightbox.css',
         'template/animate.css',
         'template/css',
         'template/css(1)',
@@ -29,6 +30,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         '//code.jquery.com/ui/1.11.4/jquery-ui.js',
+        'template/lightbox.min.js',
         'template/scrolltopcontrol.js',
         'template/jquery.sticky.js',
         'template/custom.js',

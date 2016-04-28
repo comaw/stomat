@@ -14,6 +14,11 @@ class PageController extends \yii\web\Controller
         if(!$model){
             throw new HttpException(404, 'Страница не найдена');
         }
+        if(Yii::$app->request->isAjax){
+            return $this->renderPartial('viewIsAjax', [
+                'model' => $model,
+            ]);
+        }
         return $this->render('view', [
             'model' => $model,
         ]);

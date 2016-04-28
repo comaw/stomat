@@ -17,7 +17,7 @@ class BaseController extends Controller{
                     [
                         'allow' => true,
                         'matchCallback' => function ($rule, $action) {
-                            return Yii::$app->user->identity->role == 'admin' ? true : false;
+                            return (!Yii::$app->user->isGuest && Yii::$app->user->identity->role == 'admin') ? true : false;
                         }
                     ],
                     [
