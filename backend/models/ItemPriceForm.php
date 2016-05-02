@@ -65,6 +65,7 @@ class ItemPriceForm extends Model
 
     public static function updateItem(){
         ob_start();
+        $r = 0;
         $objPHPExcel = \PHPExcel_IOFactory::load(self::getPriceFile(true));
         foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
             $highestRow         = $worksheet->getHighestRow(); // e.g. 10
@@ -102,8 +103,10 @@ class ItemPriceForm extends Model
                     }
                 }
             }
+            $r++;
         }
         @unlink(self::getPriceFile(true));
         ob_clean();
+        return $r;
     }
 }

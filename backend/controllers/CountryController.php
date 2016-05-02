@@ -54,6 +54,7 @@ class CountryController extends BaseController
         if ($model->load(Yii::$app->request->post())) {
             if($model->validate()){
                 $model->save(false);
+                \backend\models\Log::add(Yii::t('app', 'Добавление страны ID').$model->id);
                 return $this->redirect(['index']);
             }
         }
@@ -75,6 +76,7 @@ class CountryController extends BaseController
         if ($model->load(Yii::$app->request->post())) {
             if($model->validate()){
                 $model->save(false);
+                \backend\models\Log::add(Yii::t('app', 'Редактирование страны ID').$model->id);
                 return $this->redirect(['index']);
             }
         }
@@ -92,7 +94,7 @@ class CountryController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        \backend\models\Log::add(Yii::t('app', 'Удаление страны ID').$id);
         return $this->redirect(['index']);
     }
 

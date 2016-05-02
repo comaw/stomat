@@ -54,6 +54,7 @@ class CategoryController extends BaseController
         if ($model->load(Yii::$app->request->post())) {
             if($model->validate()){
                 $model->save(false);
+                \backend\models\Log::add(Yii::t('app', 'Добавление категори ID').$model->id);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -75,6 +76,7 @@ class CategoryController extends BaseController
         if ($model->load(Yii::$app->request->post())) {
             if($model->validate()){
                 $model->save(false);
+                \backend\models\Log::add(Yii::t('app', 'Редактирование категори ID').$model->id);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -92,7 +94,7 @@ class CategoryController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        \backend\models\Log::add(Yii::t('app', 'Удаление категори ID').$id);
         return $this->redirect(['index']);
     }
 

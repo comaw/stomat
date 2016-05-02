@@ -54,6 +54,7 @@ class FaqController extends BaseController
         if ($model->load(Yii::$app->request->post())) {
             if($model->validate()){
                 $model->save(false);
+                \backend\models\Log::add(Yii::t('app', 'Добавлеение FAQ ID').$model->id);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -75,6 +76,7 @@ class FaqController extends BaseController
         if ($model->load(Yii::$app->request->post())) {
             if($model->validate()){
                 $model->save(false);
+                \backend\models\Log::add(Yii::t('app', 'Редактирование FAQ ID').$id);
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Успешно сохраненно!'));
                 return $this->refresh();
             }
@@ -93,7 +95,7 @@ class FaqController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        \backend\models\Log::add(Yii::t('app', 'Удаление FAQ ID').$id);
         return $this->redirect(['index']);
     }
 

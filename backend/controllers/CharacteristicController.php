@@ -52,6 +52,7 @@ class CharacteristicController extends BaseController
         $model = new Characteristic();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            \backend\models\Log::add(Yii::t('app', 'Добавление характиристики ID').$model->id);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -71,6 +72,7 @@ class CharacteristicController extends BaseController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            \backend\models\Log::add(Yii::t('app', 'Редактирование характиристики ID').$model->id);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -88,7 +90,7 @@ class CharacteristicController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        \backend\models\Log::add(Yii::t('app', 'Удаление характиристики ID').$id);
         return $this->redirect(['index']);
     }
 

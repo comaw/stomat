@@ -66,6 +66,7 @@ class ItemExcelForm extends Model
 
     public static function updateItem(){
         ob_start();
+        $r = 0;
         $objPHPExcel = \PHPExcel_IOFactory::load(self::getPriceFile(true));
         $data = [];
         foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
@@ -217,31 +218,14 @@ class ItemExcelForm extends Model
                 ob_flush();
                 flush();
 
-//                if($code && $price){
-//                    $item = Item::find()->where("code = :code", [':code' => $code])->one();
-//                    if($item){
-//                        $item->price = $price;
-//                        $item->stock = $stock;
-//                        $item->save();
-//                        echo $item->id;
-//                        ob_flush();
-//                        flush();
-//                    }
-//                }
-//                SET foreign_key_checks = 0;
-//TRUNCATE `st_category`;
-//TRUNCATE `st_characteristic`;
-//TRUNCATE `st_item`;
-//TRUNCATE `st_item_characteristic`;
-//TRUNCATE `st_item_img`;
-//TRUNCATE `st_manufacturer`;
-//SET foreign_key_checks = 1;
                 if($row > 30){
                     break;
                 }
             }
+            $r++;
         }
         @unlink(self::getPriceFile(true));
         ob_clean();
+        return  $r;
     }
 }

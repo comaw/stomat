@@ -7,27 +7,13 @@ use backend\models\Currency;
 use backend\models\CurrencySearch;
 use backend\ext\BaseController;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+
 
 /**
  * CurrencyController implements the CRUD actions for Currency model.
  */
 class CurrencyController extends BaseController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Currency models.
@@ -66,6 +52,7 @@ class CurrencyController extends BaseController
         $model = new Currency();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            \backend\models\Log::add(Yii::t('app', 'Добавление валюты ID').$model->id);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -85,6 +72,7 @@ class CurrencyController extends BaseController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            \backend\models\Log::add(Yii::t('app', 'Редактирование валюты ID').$model->id);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -102,7 +90,7 @@ class CurrencyController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        \backend\models\Log::add(Yii::t('app', 'Удаление валюты ID').$id);
         return $this->redirect(['index']);
     }
 

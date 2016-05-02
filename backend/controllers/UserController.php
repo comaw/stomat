@@ -56,6 +56,7 @@ class UserController extends BaseController
                 $model->password_hash = Yii::$app->security->generatePasswordHash($model->pass);
                 if($model->validate()){
                     $model->save(false);
+                    \backend\models\Log::add(Yii::t('app', 'Добавление пользователя ID').$model->id);
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }else{
@@ -83,6 +84,7 @@ class UserController extends BaseController
             }
             if($model->validate()){
                 $model->save(false);
+                \backend\models\Log::add(Yii::t('app', 'Редактирование пользователя ID').$id);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -100,7 +102,7 @@ class UserController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        \backend\models\Log::add(Yii::t('app', 'Удаление пользователя ID').$id);
         return $this->redirect(['index']);
     }
 

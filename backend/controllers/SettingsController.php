@@ -56,6 +56,7 @@ class SettingsController extends BaseController
             $model->name = UrlHelp::translateUrl($model->name, true);
             if($model->validate()){
                 $model->save();
+                \backend\models\Log::add(Yii::t('app', 'Добавление настройки ID').$model->id);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -78,6 +79,7 @@ class SettingsController extends BaseController
             $model->name = UrlHelp::translateUrl($model->name, true);
             if($model->validate()){
                 $model->save();
+                \backend\models\Log::add(Yii::t('app', 'Редактирование настройки ID').$id);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -95,7 +97,7 @@ class SettingsController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        \backend\models\Log::add(Yii::t('app', 'Удаление настройки ID').$id);
         return $this->redirect(['index']);
     }
 

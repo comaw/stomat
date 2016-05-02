@@ -72,6 +72,7 @@ class SiteController extends Controller
         }
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             LoginError::del();
+            \backend\models\Log::add(Yii::t('app', 'Логин в админку'));
             return $this->goBack();
         } else {
             $errorLogin = LoginError::getLog();

@@ -3,25 +3,39 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Manufacturer;
-use backend\models\ManufacturerSearch;
+use backend\models\Log;
+use backend\models\LogSearch;
 use backend\ext\BaseController;
 use yii\web\NotFoundHttpException;
-
+use yii\filters\VerbFilter;
 
 /**
- * ManufacturerController implements the CRUD actions for Manufacturer model.
+ * LogController implements the CRUD actions for Log model.
  */
-class ManufacturerController extends BaseController
+class LogController extends BaseController
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
 
     /**
-     * Lists all Manufacturer models.
+     * Lists all Log models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ManufacturerSearch();
+        $searchModel = new LogSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -31,7 +45,7 @@ class ManufacturerController extends BaseController
     }
 
     /**
-     * Displays a single Manufacturer model.
+     * Displays a single Log model.
      * @param string $id
      * @return mixed
      */
@@ -43,28 +57,25 @@ class ManufacturerController extends BaseController
     }
 
     /**
-     * Creates a new Manufacturer model.
+     * Creates a new Log model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Manufacturer();
+        $model = new Log();
 
-        if ($model->load(Yii::$app->request->post())) {
-            if($model->validate()){
-                $model->save(false);
-                \backend\models\Log::add(Yii::t('app', 'Добавление производителя ID').$model->id);
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
-     * Updates an existing Manufacturer model.
+     * Updates an existing Log model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -73,20 +84,17 @@ class ManufacturerController extends BaseController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
-            if($model->validate()){
-                $model->save(false);
-                \backend\models\Log::add(Yii::t('app', 'Редактирование производителя ID').$model->id);
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
-     * Deletes an existing Manufacturer model.
+     * Deletes an existing Log model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -94,20 +102,20 @@ class ManufacturerController extends BaseController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        \backend\models\Log::add(Yii::t('app', 'Удаление производителя ID').$id);
+
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Manufacturer model based on its primary key value.
+     * Finds the Log model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Manufacturer the loaded model
+     * @return Log the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Manufacturer::findOne($id)) !== null) {
+        if (($model = Log::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

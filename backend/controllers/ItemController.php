@@ -31,6 +31,7 @@ class ItemController extends BaseController
         $model->limit = 0;
         $model->offset = 0;
         if($model->load(Yii::$app->request->post()) && $model->validate()) {
+            \backend\models\Log::add(Yii::t('app', 'Выгрузка товаров в Excel '));
             $xlsx = new \PHPExcel();
             $xlsx->getProperties()->setCreator(Yii::t('app', 'Стомат плюс'));
             $xlsx->getProperties()->setLastModifiedBy(Yii::t('app', 'Стомат плюс'));
@@ -127,7 +128,8 @@ class ItemController extends BaseController
         if($model->load(Yii::$app->request->post())) {
             $model->file = UploadedFile::getInstance($model, 'file');
             if($model->upload()) {
-                $model->updateItem();
+                $size = $model->updateItem();
+                \backend\models\Log::add(Yii::t('app', 'Обновление цен на товары. Всего - ').$size);
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Успешно обновленно!'));
                 return $this->refresh();
             }
@@ -144,7 +146,10 @@ class ItemController extends BaseController
         if($model->load(Yii::$app->request->post())) {
             $model->file = UploadedFile::getInstance($model, 'file');
             if($model->upload()) {
-                $model->updateItem();
+                $size = $model->updateItem();
+                \backend\models\Log::add(Yii::t('app', 'Обновление или добавление товаров. Всего - ').$size);
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Успешно обновленно!'));
+                return $this->refresh();
             }
         }
         return $this->render('excel', [
@@ -192,6 +197,7 @@ class ItemController extends BaseController
         if ($model->load(Yii::$app->request->post())) {
             if($model->validate()){
                 $model->save(false);
+                \backend\models\Log::add(Yii::t('app', 'Создание товара ID').$model->id);
                 if($imgs->load(Yii::$app->request->post())){
                     $imgs->imageFile = UploadedFile::getInstances($imgs, 'imageFile');
                     $imgs->upload($model);
@@ -236,6 +242,7 @@ class ItemController extends BaseController
         if ($model->load(Yii::$app->request->post())) {
             if($model->validate()){
                 $model->save(false);
+                \backend\models\Log::add(Yii::t('app', 'Редактирование товара ID').$model->id);
                 if($imgs->load(Yii::$app->request->post())){
                     $imgs->imageFile = UploadedFile::getInstances($imgs, 'imageFile');
                     $imgs->upload($model);
@@ -278,8 +285,14 @@ class ItemController extends BaseController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        \backend\models\Log::add(Yii::t('app', 'Удаление товара ID').$model->id);
+        if(sizeof($model->itemImgs) > 0){
+            foreach($model->itemImgs AS $img){
+                $img->deleteImg();
+            }
+        }
+        $model->delete();
         return $this->redirect(['index']);
     }
 

@@ -64,6 +64,7 @@ class NewsController extends BaseController
                 }
                 $model->imageFile = null;
                 $model->save(false);
+                \backend\models\Log::add(Yii::t('app', 'Добавление Новости ID').$model->id);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -92,6 +93,7 @@ class NewsController extends BaseController
                 }
                 $model->imageFile = null;
                 $model->save(false);
+                \backend\models\Log::add(Yii::t('app', 'Редактирование Новости ID').$id);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -110,6 +112,7 @@ class NewsController extends BaseController
     {
         $model = $this->findModel($id);
         News::delImg($model->img);
+        \backend\models\Log::add(Yii::t('app', 'Удаление Новости ID').$id);
         $model->delete();
         return $this->redirect(['index']);
     }

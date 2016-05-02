@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%user}}".
@@ -110,5 +111,9 @@ class User extends \yii\db\ActiveRecord
 
     public function getStatusName(){
         return isset(self::listStatus()[$this->status]) ? self::listStatus()[$this->status] : null;
+    }
+
+    public static function listUser($role = 'admin'){
+        return ArrayHelper::map(self::find()->where("role = :role", [':role' => $role])->orderBy('username')->all(), 'id', 'username');
     }
 }
