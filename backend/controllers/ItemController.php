@@ -5,12 +5,14 @@ namespace backend\controllers;
 use backend\models\Characteristic;
 use backend\models\ItemCharacteristic;
 use backend\models\ItemImg;
+use backend\models\ItemImportForm;
 use backend\models\ItemPriceForm;
 use backend\models\ItemExcelForm;
 use Yii;
 use backend\models\Item;
 use backend\models\ItemSearch;
 use backend\ext\BaseController;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
@@ -18,8 +20,82 @@ use yii\web\UploadedFile;
 /**
  * ItemController implements the CRUD actions for Item model.
  */
+
 class ItemController extends BaseController
 {
+
+    public function actionImport()
+    {
+        set_time_limit(0);
+        $model = new ItemImportForm();
+        $model->limit = 0;
+        $model->offset = 0;
+        if($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $xlsx = new \PHPExcel();
+            $xlsx->getProperties()->setCreator(Yii::t('app', 'Стомат плюс'));
+            $xlsx->getProperties()->setLastModifiedBy(Yii::t('app', 'Стомат плюс'));
+            $xlsx->getProperties()->setTitle(Yii::t('app', 'Стомат плюс список товаров'));
+            $xlsx->getProperties()->setSubject(Yii::t('app', 'Стомат плюс список товаров'));
+            $xlsx->getProperties()->setDescription(Yii::t('app', 'Стомат плюс список товаров'));
+
+
+            $aql = Item::find();
+            $aql->orderBy('id asc');
+            if($model->limit > 0){
+                $aql->limit($model->limit);
+            }
+            if($model->offset > 0){
+                $aql->offset($model->offset);
+            }
+            $items = $aql->all();
+
+
+            foreach($items AS $k => $item) {
+                $index = $k + 2;
+                $xlsx->setActiveSheetIndex(0)
+                    ->setCellValue('A'.$index, $item->id)
+                    ->setCellValue('B'.$index, $item->code)
+                    ->setCellValue('C'.$index, $item->name)
+                    ->setCellValue('D'.$index, $item->price)
+                    ->setCellValue('E'.$index, (isset($item->currency0->name) ? $item->currency0->name : null))
+                    ->setCellValue('F'.$index, $item->unit)
+                    ->setCellValue('G'.$index, $item->getStockName())
+                    ->setCellValue('H'.$index, $item->getWarrantyName())
+                    ->setCellValue('I'.$index, $item->packing)
+                    ->setCellValue('J'.$index, $item->getDeliveryName())
+                    ->setCellValue('K'.$index, ( !$item->delivery_time ? $item->delivery_time : null ) )
+                    ->setCellValue('L'.$index, $item->getHomeName())
+                    ->setCellValue('M'.$index, (isset($item->category0->name) ? $item->category0->name : null))
+                    ->setCellValue('N'.$index, (isset($item->manufacturer0->name) ? $item->manufacturer0->name : null))
+                    ->setCellValue('O'.$index, (isset($item->country0->name) ? $item->country0->name : null))
+                    ->setCellValue('P'.$index, $item->packing)
+                    ->setCellValue('Q'.$index, str_replace('/admin/', '/', Url::toRoute(['item/view', 'url' => $item->url], true)))
+                    ->setCellValue('R'.$index, $item->title)
+                    ->setCellValue('S'.$index, $item->description)
+                    ->setCellValue('T'.$index, $item->content)
+                    ->setCellValue('U'.$index, ( isset($item->itemImg->name) ? str_replace('/admin/', '/', Url::home(true)).'image/item/'.$item->id.'/'.$item->itemImg->name : null ))
+                    ->setCellValue('V'.$index, $item->allCharacteristics())
+                ;
+                $xlsx->setActiveSheetIndex(0)->getStyle('V'.$index)->getAlignment()->setWrapText(true);
+                $xlsx->setActiveSheetIndex(0)->getStyle('T'.$index)->getAlignment()->setWrapText(true);
+                $xlsx->setActiveSheetIndex(0)->getColumnDimension('V')->setWidth(400);
+                $xlsx->setActiveSheetIndex(0)->getRowDimension($index)->setRowHeight(20);;
+            }
+
+            $xlsx->getActiveSheet()->setTitle(Yii::t('app', 'Стомат плюс список товаров'));
+            $xlsx->setActiveSheetIndex(0);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="'.ItemImportForm::FILENAME.'"');
+            header('Cache-Control: max-age=0');
+            $objWriter = \PHPExcel_IOFactory::createWriter($xlsx, 'Excel2007');
+            $objWriter->save('php://output');
+            Yii::$app->end();
+        }else{
+            return $this->render('import', [
+                'model' => $model,
+            ]);
+        }
+    }
 
     public function actionPrice()
     {

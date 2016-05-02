@@ -199,6 +199,19 @@ class Item extends \yii\db\ActiveRecord
         return isset(self::warrantyList()[$this->warranty]) ? self::warrantyList()[$this->warranty] : null;
     }
 
+    public function allCharacteristics(){
+        $r = '';
+        if(isset($this->itemCharacteristics) && sizeof($this->itemCharacteristics) > 0){
+            foreach($this->itemCharacteristics AS $characteristic){
+                if(!$characteristic->value){
+                    continue;
+                }
+                $r .= $characteristic->characteristic0->name.' '.$characteristic->value.' '.$characteristic->characteristic0->dimension.' '."\n\t";
+            }
+        }
+        return $r;
+    }
+
     public static function yesOrNo($ksort = false){
         $r = [
             1 => Yii::t('app', 'Да'),

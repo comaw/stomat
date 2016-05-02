@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create Item'), ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a(Yii::t('app', 'Обновить цены Excel'), ['price'], ['class' => 'btn btn-warning']) ?>
         <?= Html::a(Yii::t('app', 'Добавить / обновить продукцию Excel'), ['excel'], ['class' => 'btn btn-info']) ?>
+        <?= Html::a(Yii::t('app', 'Импорт товаров'), ['import'], ['class' => 'btn btn-primary']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
