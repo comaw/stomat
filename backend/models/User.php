@@ -45,6 +45,25 @@ class User extends \yii\db\ActiveRecord
                 $this->created_at = time();
             }
             $this->updated_at = time();
+            if(!$this->isNewRecord) {
+                $attributes = $this->getAttributes(null, []);
+                foreach ($attributes AS $attribute => $v) {
+                    $old = $this->getOldAttribute($attribute);
+                    $new = $this->$attribute;
+                    if($old != $new && mb_strlen($new, Yii::$app->charset) < 200){
+                        $m = Yii::t('app', 'В пользователя ID').$this->id;
+                        $m .= Yii::t('app', ' Поле ').$this->getAttributeLabel($attribute);
+                        $m .= Yii::t('app', ' изменилось с "').$old;
+                        $m .= Yii::t('app', '" на "').$new.'"';
+                        \backend\models\Log::add($m);
+                    }elseif($old != $new && mb_strlen($new, Yii::$app->charset) >= 200){
+                        $m = Yii::t('app', 'В пользователя ID').$this->id;
+                        $m .= Yii::t('app', ' Поле ').$this->getAttributeLabel($attribute);
+                        $m .= Yii::t('app', ' изменилось');
+                        \backend\models\Log::add($m);
+                    }
+                }
+            }
             return true;
         }
         return false;

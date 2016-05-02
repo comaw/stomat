@@ -124,7 +124,7 @@ class ItemImg extends \yii\db\ActiveRecord
         if(!$url || !$fileName){
             return false;
         }
-        $copy = copy($url, $dirItemImg . $fileName);
+        $copy = @copy($url, $dirItemImg . $fileName);
         if(!$copy){
             return false;
         }

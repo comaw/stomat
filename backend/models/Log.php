@@ -61,6 +61,7 @@ class Log extends \yii\db\ActiveRecord
     }
 
     public static function add($text = null){
+        self::deleteAll("created < :created", [':created' => date("Y-m-d H:i:s", (time() - 60 * 60 * 24 * 90))]);
         $model = new self();
         $model->user = Yii::$app->user->id;
         $model->created = date("Y-m-d H:i:s");

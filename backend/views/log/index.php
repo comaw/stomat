@@ -24,14 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'user',
                 'format' => 'raw',
                 'value' => function($data){
-                    return $data->user;
+                    return isset($data->user0->username) ? $data->user0->username : null;
                 },
                 'filter' => \backend\models\User::listUser(),
             ],
             'created',
             'description',
 
-//            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+                'template' => '{delete}'],
         ],
     ]); ?>
 <?php Pjax::end(); ?>

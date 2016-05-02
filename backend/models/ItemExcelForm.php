@@ -70,11 +70,14 @@ class ItemExcelForm extends Model
         $objPHPExcel = \PHPExcel_IOFactory::load(self::getPriceFile(true));
         $data = [];
         foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
+            echo '<pre>';
+            echo PHP_EOL.'<br>';
+            ob_flush();
+            flush();
             $highestRow         = $worksheet->getHighestRow(); // e.g. 10
             $highestColumn      = $worksheet->getHighestColumn(); // e.g 'F'
             $highestColumnIndex = \PHPExcel_Cell::columnIndexFromString($highestColumn);
             for ($row = 2; $row <= $highestRow; ++ $row) {
-                echo '<pre>';
                 $code = null;
                 $stock = null;
                 $price = null;
@@ -108,7 +111,7 @@ class ItemExcelForm extends Model
                 if(!$data['Item']['category']){
                     continue;
                 }
-                $catContent = file_get_contents($data['Item']['category']);
+                $catContent = @file_get_contents($data['Item']['category']);
                 preg_match("/<h1(.*)>(.*)<\/h1>/Uis", $catContent, $cat);
                 $data['Item']['category'] = isset($cat[2]) ? trim(str_replace('в Украине', '', strip_tags($cat[2]))) : null;
                 if(!$data['Item']['category']){
@@ -154,11 +157,15 @@ class ItemExcelForm extends Model
                 }else{
                     $data['Item']['country'] = null;
                 }
+                $oldPrice = $data['Item']['price'];
                 $item = Item::find()->where("code = :code", [':code' => $data['Item']['code']])->one();
                 if(!$item){
                     $item = new Item();
+                }else{
+                    $oldPrice = $item->price;
                 }
                 $item->load($data);
+                $item->price = $oldPrice;
                 if($item->validate()) {
                     $item->save(false);
                 }else{
@@ -212,18 +219,17 @@ class ItemExcelForm extends Model
                 $imgUrl = trim($worksheet->getCellByColumnAndRow(11, $row)->getValue());
                 ItemImg::uploadInUrl($imgUrl, $item);
                 var_dump($data['Item']);
-
-                echo PHP_EOL.'<br>';
-                echo '</pre>';
-                ob_flush();
-                flush();
-
-                if($row > 30){
-                    break;
-                }
             }
+            sleep(4);
+            echo PHP_EOL.'<br>';
+            echo '</pre>';
+            ob_flush();
+            flush();
             $r++;
         }
+        echo PHP_EOL.'<br>'.$r;
+        ob_flush();
+        flush();
         @unlink(self::getPriceFile(true));
         ob_clean();
         return  $r;

@@ -148,8 +148,8 @@ class ItemController extends BaseController
             if($model->upload()) {
                 $size = $model->updateItem();
                 \backend\models\Log::add(Yii::t('app', 'Обновление или добавление товаров. Всего - ').$size);
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Успешно обновленно!'));
-                return $this->refresh();
+//                Yii::$app->session->setFlash('success', Yii::t('app', 'Успешно обновленно!'));
+//                return $this->refresh();
             }
         }
         return $this->render('excel', [

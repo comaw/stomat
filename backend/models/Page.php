@@ -51,6 +51,25 @@ class Page extends \yii\db\ActiveRecord
                 $this->title = $this->title ? $this->title : $this->name;
                 $this->description = $this->description ? $this->description : $this->name;
             }
+            if(!$this->isNewRecord) {
+                $attributes = $this->getAttributes(null, []);
+                foreach ($attributes AS $attribute => $v) {
+                    $old = $this->getOldAttribute($attribute);
+                    $new = $this->$attribute;
+                    if($old != $new && mb_strlen($new, Yii::$app->charset) < 200){
+                        $m = Yii::t('app', 'В странице ID').$this->id;
+                        $m .= Yii::t('app', ' Поле ').$this->getAttributeLabel($attribute);
+                        $m .= Yii::t('app', ' изменилось с "').$old;
+                        $m .= Yii::t('app', '" на "').$new.'"';
+                        \backend\models\Log::add($m);
+                    }elseif($old != $new && mb_strlen($new, Yii::$app->charset) >= 200){
+                        $m = Yii::t('app', 'В странице ID').$this->id;
+                        $m .= Yii::t('app', ' Поле ').$this->getAttributeLabel($attribute);
+                        $m .= Yii::t('app', ' изменилось');
+                        \backend\models\Log::add($m);
+                    }
+                }
+            }
             return true;
         }
         return false;
