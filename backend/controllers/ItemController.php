@@ -49,6 +49,29 @@ class ItemController extends BaseController
             }
             $items = $aql->all();
 
+            $xlsx->setActiveSheetIndex(0)
+                ->setCellValue('A1', Yii::t('app', 'ID товара'))
+                ->setCellValue('B1', Yii::t('app', 'Код товара'))
+                ->setCellValue('C1', Yii::t('app', 'Название'))
+                ->setCellValue('D1', Yii::t('app', 'Цена'))
+                ->setCellValue('E1', Yii::t('app', 'Валюта'))
+                ->setCellValue('F1', Yii::t('app', 'Измерение'))
+                ->setCellValue('G1', Yii::t('app', 'Наличие на складе'))
+                ->setCellValue('H1', Yii::t('app', 'Гарантия'))
+                ->setCellValue('I1', Yii::t('app', 'Тип упаковки'))
+                ->setCellValue('J1', Yii::t('app', 'Возможность доставки'))
+                ->setCellValue('K1', Yii::t('app', 'Сроки доставки'))
+                ->setCellValue('L1', Yii::t('app', 'На главной'))
+                ->setCellValue('M1', Yii::t('app', 'Категория'))
+                ->setCellValue('N1', Yii::t('app', 'Производитель'))
+                ->setCellValue('O1', Yii::t('app', 'Страна'))
+                ->setCellValue('P1', Yii::t('app', 'ID категории'))
+                ->setCellValue('Q1', Yii::t('app', 'Url товара'))
+                ->setCellValue('R1', Yii::t('app', 'Title'))
+                ->setCellValue('S1', Yii::t('app', 'Description'))
+                ->setCellValue('T1', Yii::t('app', 'Описание'))
+                ->setCellValue('U1', Yii::t('app', 'Картинка'))
+                ->setCellValue('V1', Yii::t('app', 'Характеристики'));
 
             foreach($items AS $k => $item) {
                 $index = $k + 2;
@@ -68,7 +91,7 @@ class ItemController extends BaseController
                     ->setCellValue('M'.$index, (isset($item->category0->name) ? $item->category0->name : null))
                     ->setCellValue('N'.$index, (isset($item->manufacturer0->name) ? $item->manufacturer0->name : null))
                     ->setCellValue('O'.$index, (isset($item->country0->name) ? $item->country0->name : null))
-                    ->setCellValue('P'.$index, $item->packing)
+                    ->setCellValue('P'.$index, $item->category)
                     ->setCellValue('Q'.$index, str_replace('/admin/', '/', Url::toRoute(['item/view', 'url' => $item->url], true)))
                     ->setCellValue('R'.$index, $item->title)
                     ->setCellValue('S'.$index, $item->description)
