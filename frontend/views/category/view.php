@@ -61,14 +61,16 @@ Yii::$app->view->registerMetaTag([
                                 <?=Yii::t('app', 'Производитель')?>: <?=Html::a($model->manufacturer0->name, ['manufacturer/view', 'url' => $model->manufacturer0->url])?>
                             <?php } ?>
                         </p>
+                        <?php if($model->stock){ ?>
                         <p class="price">
-                            <?php if($model->stock){ ?>
-                                <span class="new text-success"><?=Yii::$app->formatter->asInteger($model->price)?> <?=$model->currency0->title?></span>
-                            <?php }else{ ?>
-                                <span class="new text-danger"><?=Yii::t('app', 'Нет в наличии')?></span>
-                            <?php } ?>
+                            <span class="new text-success"><?=Yii::$app->formatter->asInteger($model->price)?> <?=$model->currency0->title?></span>
                         </p>
                         <a href="javascript:void(0);" class="btn btn-sm btn-color" onclick="cart.add(<?=(int)$model->id?>);"><i class="fa fa-shopping-cart"></i> <?=Yii::t('app', 'В корзину')?></a>
+                        <?php }else{ ?>
+                        <p class="price">
+                            <span class="new text-danger"><?=Yii::t('app', 'Нет в наличии')?></span>
+                        </p>
+                        <?php } ?>
                     </div>
                 </div>
             <?php } ?>
