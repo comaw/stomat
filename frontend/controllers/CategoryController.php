@@ -13,7 +13,7 @@ use yii\web\HttpException;
 
 class CategoryController extends \yii\web\Controller
 {
-    public function actionView($url, $manufacturer = null, $page = 0)
+    public function actionView($url, $manufacturer = null, $page = null)
     {
         $sortForm = new SortForm();
         $toSort = $sortForm->getSort();

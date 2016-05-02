@@ -9,7 +9,7 @@ use Yii;
 
 class SearchController extends \yii\web\Controller
 {
-    public function actionIndex($search_text, $page = 0)
+    public function actionIndex($search_text, $page = null)
     {
         $sortForm = new SortForm();
         $toSort = $sortForm->getSort();

@@ -62,6 +62,13 @@ return [
             'scriptUrl'=>'/backend/index.php',
             'rules' => [
                 '' => 'settings/index',
+                'item/index' => 'item/index',
+                'item/view' => 'item/view',
+                'item/create' => 'item/create',
+                'item/update' => 'item/update',
+                'item/<id:\d+>/<action:(create|update|delete)>' => 'item/<action>',
+                'item/price' => 'item/price',
+                'item/excel' => 'item/excel',
                 'item/<url:.+>' => 'item/view',
 
                 '<controller:\w+>/<id:\d+>/<action:(create|update|delete)>' => '<controller>/<action>',

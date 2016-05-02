@@ -8,7 +8,7 @@ use yii\web\HttpException;
 
 class NewsController extends \yii\web\Controller
 {
-    public function actionIndex($page = 0)
+    public function actionIndex($page = null)
     {
         $query = News::find();
         $countQuery = clone $query;

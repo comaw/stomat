@@ -15,7 +15,7 @@ use yii\helpers\Url;
 use frontend\models\SortForm;
 use yii\widgets\ActiveForm;
 
-$this->title = $category->title.(Yii::$app->request->get('page')? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page') - 1) : '');
+$this->title = $category->title.(Yii::$app->request->get('page') > 1? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page')) : '');
 if($manufacturerCurrent){
     $this->params['breadcrumbs'][] = ['label' => $category->name, 'url' => ['/category/view', 'url' => $category->url]];
     $this->params['breadcrumbs'][] = $manufacturerCurrent->name;
@@ -24,7 +24,7 @@ if($manufacturerCurrent){
 }
 Yii::$app->view->registerMetaTag([
     'name' => 'description',
-    'content' => $category->description.(Yii::$app->request->get('page')? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page') - 1) : ''),
+    'content' => $category->description.(Yii::$app->request->get('page') > 1? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page')) : ''),
 ]);
 ?>
 <h1 class="headline first-child text-color"><?=$category->name?></h1>

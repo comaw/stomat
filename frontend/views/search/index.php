@@ -10,11 +10,11 @@ use yii\helpers\Url;
 use frontend\models\SortForm;
 use yii\widgets\ActiveForm;
 
-$this->title = Yii::t('app', 'Поиск по запросу: ').$search_text.(Yii::$app->request->get('page')? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page') - 1) : '');
+$this->title = Yii::t('app', 'Поиск по запросу: ').$search_text.(Yii::$app->request->get('page') > 1? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page')) : '');
 $this->params['breadcrumbs'][] = Yii::t('app', 'Поиск по запросу: ').$search_text;
 Yii::$app->view->registerMetaTag([
     'name' => 'description',
-    'content' => Yii::t('app', 'Поиск по запросу: ').$search_text.(Yii::$app->request->get('page')? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page') - 1) : ''),
+    'content' => Yii::t('app', 'Поиск по запросу: ').$search_text.(Yii::$app->request->get('page') > 1? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page')) : ''),
 ]);
 ?>
 <h1 class="headline first-child text-color"><?=Yii::t('app', 'Поиск по запросу: ').$search_text?></h1>

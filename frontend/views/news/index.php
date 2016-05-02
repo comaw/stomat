@@ -14,11 +14,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use common\lib\LinkPager;
 
-$this->title = Yii::t('app', 'Новости').(Yii::$app->request->get('page')? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page') - 1) : '');
+$this->title = Yii::t('app', 'Новости').(Yii::$app->request->get('page') > 1? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page')) : '');
 $this->params['breadcrumbs'][] = Yii::t('app', 'Новости');
 Yii::$app->view->registerMetaTag([
     'name' => 'description',
-    'content' => Yii::t('app', 'Новости').(Yii::$app->request->get('page')? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page') - 1) : ''),
+    'content' => Yii::t('app', 'Новости').(Yii::$app->request->get('page') > 1? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page')) : ''),
 ]);
 
 ?>

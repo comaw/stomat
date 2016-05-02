@@ -22,7 +22,7 @@ class ManufacturerController extends \yii\web\Controller
         ]);
     }
 
-    public function actionView($url, $page = 0)
+    public function actionView($url, $page = null)
     {
         $sortForm = new SortForm();
         $toSort = $sortForm->getSort();

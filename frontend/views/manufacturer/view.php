@@ -11,12 +11,12 @@ use yii\helpers\Url;
 use frontend\models\SortForm;
 use yii\widgets\ActiveForm;
 
-$this->title = $manufacturer->title.(Yii::$app->request->get('page')? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page') - 1) : '');
+$this->title = $manufacturer->title.(Yii::$app->request->get('page') > 1? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page')) : '');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Производители'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $manufacturer->name;
 Yii::$app->view->registerMetaTag([
     'name' => 'description',
-    'content' => $manufacturer->description.(Yii::$app->request->get('page')? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page') - 1) : ''),
+    'content' => $manufacturer->description.(Yii::$app->request->get('page') > 1? ' - '.Yii::t('app', 'страница ').(Yii::$app->request->get('page')) : ''),
 ]);
 ?>
 <h1 class="headline first-child text-color"><?=Yii::t('app', 'Производитель')?> <?=$manufacturer->name?></h1>

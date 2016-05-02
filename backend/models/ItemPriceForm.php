@@ -23,7 +23,7 @@ class ItemPriceForm extends Model
     public function rules()
     {
         return [
-            [['file'], 'file', 'extensions' => ['xlsx', 'xls', 'csv']],
+            [['file'], 'file', 'extensions' => ['xlsx']],
         ];
     }
 
