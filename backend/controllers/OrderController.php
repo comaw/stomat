@@ -7,27 +7,13 @@ use backend\models\Order;
 use backend\models\OrderSearch;
 use backend\ext\BaseController;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+
 
 /**
  * OrderController implements the CRUD actions for Order model.
  */
 class OrderController extends BaseController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Order models.
@@ -65,13 +51,15 @@ class OrderController extends BaseController
     {
         $model = new Order();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->validate()){
+                $model->save(false);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -84,13 +72,15 @@ class OrderController extends BaseController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->validate()){
+                $model->save(false);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**

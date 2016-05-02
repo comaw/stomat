@@ -9,6 +9,7 @@ use Yii;
  *
  * @property string $id
  * @property string $user
+ * @property integer $status
  * @property string $username
  * @property string $email
  * @property string $phone
@@ -40,13 +41,14 @@ class Order extends \yii\db\ActiveRecord
         return [
             [['username', 'email', 'phone', 'state', 'city', 'address', 'zipcode', 'comment'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
             [['username', 'email', 'phone', 'state', 'city', 'address', 'zipcode', 'comment'], 'filter', 'filter' => 'strip_tags', 'skipOnArray' => true],
-            [['user'], 'integer'],
+            [['user', 'status'], 'integer'],
             [['username', 'email', 'phone', 'state', 'city', 'address'], 'required'],
             [['created'], 'safe'],
             [['username', 'email', 'phone', 'state', 'city', 'address', 'zipcode'], 'string', 'max' => 255],
             [['comment'], 'string'],
             [['user'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user' => 'id']],
             [['email'], 'email'],
+            [['status'], 'in', 'range' =>array_keys(self::listStatus())],
         ];
     }
 
@@ -59,6 +61,7 @@ class Order extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'user' => Yii::t('app', 'User'),
             'username' => Yii::t('app', 'Ф.И.О.'),
+            'status' => Yii::t('app', 'Статус'),
             'email' => Yii::t('app', 'Email'),
             'phone' => Yii::t('app', 'Телефон'),
             'state' => Yii::t('app', 'Область'),
@@ -84,5 +87,22 @@ class Order extends \yii\db\ActiveRecord
     public function getOrderItems()
     {
         return $this->hasMany(OrderItem::className(), ['orders' => 'id']);
+    }
+
+    public static function listStatus(){
+        return [
+            1 => Yii::t('app', 'Новый'),
+            2 => Yii::t('app', 'В работе'),
+            3 => Yii::t('app', 'Ждет отправки'),
+            4 => Yii::t('app', 'Отправлен'),
+            5 => Yii::t('app', 'Ждет оплаты'),
+            6 => Yii::t('app', 'Доставлен'),
+            7 => Yii::t('app', 'Выполнен'),
+            10 => Yii::t('app', 'Архив'),
+        ];
+    }
+
+    public function getStatusName(){
+        return isset(self::listStatus()[$this->status]) ? self::listStatus()[$this->status] : null;
     }
 }

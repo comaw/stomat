@@ -25,6 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             'email:email',
             'phone',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function($data){
+                    return $data->getStatusName();
+                },
+                'filter' => \backend\models\Order::listStatus()
+            ],
             // 'state',
             // 'city',
             // 'address',
@@ -33,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'comment:ntext',
 
             ['class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update}',
+                'template' => '{view} {update} {delete}',
             ],
         ],
     ]); ?>

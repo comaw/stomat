@@ -7,27 +7,13 @@ use backend\models\Characteristic;
 use backend\models\CharacteristicSearch;
 use backend\ext\BaseController;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+
 
 /**
  * CharacteristicController implements the CRUD actions for Characteristic model.
  */
 class CharacteristicController extends BaseController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Characteristic models.

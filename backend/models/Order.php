@@ -9,6 +9,7 @@ use Yii;
  *
  * @property string $id
  * @property string $user
+ * @property integer $status
  * @property string $username
  * @property string $email
  * @property string $phone
@@ -38,12 +39,14 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user'], 'integer'],
+            [['username', 'email', 'phone', 'state', 'city', 'address', 'zipcode'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
+            [['user', 'status'], 'integer'],
             [['username', 'email', 'phone', 'state', 'city', 'address'], 'required'],
             [['created'], 'safe'],
             [['comment'], 'string'],
             [['username', 'email', 'phone', 'state', 'city', 'address', 'zipcode'], 'string', 'max' => 255],
             [['user'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user' => 'id']],
+            [['status'], 'in', 'range' =>array_keys(self::listStatus())],
         ];
     }
 
@@ -55,6 +58,7 @@ class Order extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'user' => Yii::t('app', 'User'),
+            'status' => Yii::t('app', 'Status'),
             'username' => Yii::t('app', 'Username'),
             'email' => Yii::t('app', 'Email'),
             'phone' => Yii::t('app', 'Phone'),
@@ -81,5 +85,22 @@ class Order extends \yii\db\ActiveRecord
     public function getOrderItems()
     {
         return $this->hasMany(OrderItem::className(), ['orders' => 'id']);
+    }
+
+    public static function listStatus(){
+        return [
+            1 => Yii::t('app', 'Новый'),
+            2 => Yii::t('app', 'В работе'),
+            3 => Yii::t('app', 'Ждет отправки'),
+            4 => Yii::t('app', 'Отправлен'),
+            5 => Yii::t('app', 'Ждет оплаты'),
+            6 => Yii::t('app', 'Доставлен'),
+            7 => Yii::t('app', 'Выполнен'),
+            10 => Yii::t('app', 'Архив'),
+        ];
+    }
+
+    public function getStatusName(){
+        return isset(self::listStatus()[$this->status]) ? self::listStatus()[$this->status] : null;
     }
 }

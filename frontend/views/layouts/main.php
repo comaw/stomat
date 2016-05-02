@@ -112,7 +112,7 @@ AppAsset::register($this);
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?=Url::home()?>" title="<?=Html::encode(Yii::$app->name)?>"><i class="fa fa-th-large"></i> <?=Yii::$app->name?> <span class="hidden-sm"><?=Yii::t('app', 'медтехника')?></span></a>
+                <a class="navbar-brand" href="<?=Url::home()?>" title="<?=Html::encode(Yii::$app->name)?>"><i class="fa fa-heartbeat"></i> <?=Yii::$app->name?> <span class="hidden-sm"><?=Yii::t('app', 'медтехника')?></span></a>
             </div>
             <div class="navbar-collapse collapse">
                 <?=\frontend\widgets\TpMenu::widget()?>
