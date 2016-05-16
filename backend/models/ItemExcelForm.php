@@ -220,7 +220,7 @@ class ItemExcelForm extends Model
                 ItemImg::uploadInUrl($imgUrl, $item);
                 var_dump($data['Item']);
             }
-            sleep(4);
+            sleep(6);
             echo PHP_EOL.'<br>';
             echo '</pre>';
             ob_flush();

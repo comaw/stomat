@@ -132,7 +132,7 @@ if($ItemCharacter){
             <?php  if(isset($model->itemImgs[$i])){ ?>
                 <div id="itemImgs<?=$model->itemImgs[$i]->id?>">
                     <img src="<?=$model->itemImgs[$i]->getImgUrl()?>" alt="" style="max-width: 100px;">
-                    <a href="javascript:void(0);" class="btn btn-danger btn-sm"><?=Yii::t('app', 'Удалить')?></a>
+                    <a href="javascript:void(0);" data-img="delete" data-idimg="<?=$model->itemImgs[$i]->id?>" class="btn btn-danger btn-sm"><?=Yii::t('app', 'Удалить')?></a>
                 </div>
             <?php } ?>
         </div>
@@ -143,3 +143,26 @@ if($ItemCharacter){
     </div>
     <?php ActiveForm::end(); ?>
 </div>
+<?php
+$urlImgDelete = Url::toRoute(['item/imgdelete']);
+$jsView = <<<JS
+    $('[data-img="delete"]').click(function(){
+        var self = this;
+        var id = $(self).data("idimg");
+            $.ajax({
+        type: "POST",
+        url: "{$urlImgDelete}",
+        data: {id : id},
+        dataType: 'json',
+        cache: false,
+        success: function(msg){
+            if(!msg.e){
+                $('#itemImgs' + id).html('');
+            }else{
+                alert(msg.t);
+            }
+        }
+    });
+    });
+JS;
+$this->registerJs($jsView);

@@ -27,6 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
+            [
+                'attribute' => 'img',
+                'contentOptions' => ['style' => 'word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap; width: 100px; '],
+                'format' => 'raw',
+                'value' => function($data){
+                    return isset($data->itemImgs[0]) ? Html::img($data->itemImgs[0]->getImgUrl(), ['style' => 'width: 60px;']) : null;
+                },
+            ],
             'id',
             [
                 'attribute' => 'name',

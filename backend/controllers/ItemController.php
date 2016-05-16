@@ -13,6 +13,7 @@ use backend\models\Item;
 use backend\models\ItemSearch;
 use backend\ext\BaseController;
 use yii\helpers\Url;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
@@ -296,6 +297,19 @@ class ItemController extends BaseController
         return $this->redirect(['index']);
     }
 
+    public function actionImgdelete()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if(!Yii::$app->request->isAjax){
+            throw new HttpException(404, 'Not ajax found');
+        }
+        $model = ItemImg::findOne((int)Yii::$app->request->post('id'));
+        if(!$model){
+            throw new HttpException(404, 'Not found');
+        }
+        $model->delete();
+        return ['e' => 0, 't' => ''];
+    }
     /**
      * Finds the Item model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

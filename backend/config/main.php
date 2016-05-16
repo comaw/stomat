@@ -70,6 +70,7 @@ return [
                 'item/price' => 'item/price',
                 'item/excel' => 'item/excel',
                 'item/import' => 'item/import',
+                'item/imgdelete' => 'item/imgdelete',
                 'item/<url:.+>' => 'item/view',
 
                 '<controller:\w+>/<id:\d+>/<action:(create|update|delete)>' => '<controller>/<action>',
