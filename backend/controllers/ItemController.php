@@ -173,6 +173,14 @@ class ItemController extends BaseController
         ]);
     }
 
+    public function afterAction($action, $result){
+        if($action == 'index'){
+            $session = Yii::$app->session;
+            $session->set('urlToList', Url::current());
+        }
+        return parent::afterAction($action, $result);
+    }
+
     /**
      * Displays a single Item model.
      * @param string $id
