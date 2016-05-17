@@ -32,7 +32,6 @@ if($session->has('urlToList')){
     $urlReturn = $session->get('urlToList');
 }
 
-
 ?>
 
 <?=\backend\widgets\TinyMce::widget()?>
@@ -148,7 +147,7 @@ if($session->has('urlToList')){
     <div class="form-group">
         <div class="col-sm-6 col-xs-12">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?=Html::a(Yii::t('app', 'К списку товаров'), ['index'], ['class' => 'pull-right'])?>
+        <?=Html::a(Yii::t('app', 'К списку товаров'), $urlReturn, ['class' => 'pull-right'])?>
         </div>
     </div>
     <?php ActiveForm::end(); ?>

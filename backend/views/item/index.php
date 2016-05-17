@@ -25,6 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'layout' => "{pager}\n{summary}\n{items}\n{pager}",
+        'pager' => [
+            'firstPageLabel' => Yii::t('app', 'Начало'),
+            'lastPageLabel' => Yii::t('app', 'Конец'),
+        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
