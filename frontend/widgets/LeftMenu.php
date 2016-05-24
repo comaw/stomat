@@ -17,7 +17,7 @@ class LeftMenu extends \yii\bootstrap\Widget
     }
 
     public function run(){
-        $models = Category::find()->orderBy('name')->all();
+        $models = Category::find()->where("id > 51")->orderBy('name')->all();
         return $this->render('LeftMenu', [
             'models' => $models,
         ]);

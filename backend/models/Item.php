@@ -203,7 +203,11 @@ class Item extends \yii\db\ActiveRecord
     }
 
     public function getStockName(){
-        return isset(self::yesOrNo()[$this->stock]) ? self::yesOrNo()[$this->stock] : null;
+        $r = $this->stock;
+        if($r > 1){
+            $r = 1;
+        }
+        return isset(self::yesOrNo()[$r]) ? self::yesOrNo()[$r] : null;
     }
 
     public function getHomeName(){
