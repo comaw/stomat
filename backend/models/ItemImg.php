@@ -88,7 +88,7 @@ class ItemImg extends \yii\db\ActiveRecord
             $key = 0;
             $positions = Yii::$app->request->post('ItemImg');
             foreach ($this->imageFile AS $file) {
-                $fileName = $file->baseName . '.' . $file->extension;
+                $fileName = UrlHelp::translateUrl($file->baseName) . '.' . $file->extension;
                 $file->saveAs($dirItemImg . $fileName);
                 $ih = new CImageHandler();
                 $ih->load($dirItemImg . $fileName)
@@ -146,10 +146,10 @@ class ItemImg extends \yii\db\ActiveRecord
         if(!$this->name){
             return null;
         }
-        $dirItemImg = Yii::getAlias('@frontend/web/image/item/').$this->item.'/'.$type.$this->name;
-        if(!is_file($dirItemImg)){
-            return null;
-        }
+//        $dirItemImg = Yii::getAlias('@frontend/web/image/item/').$this->item.'/'.$type.$this->name;
+//        if(!is_file($dirItemImg)){
+//            return null;
+//        }
         return UrlHelp::adminHome().'image/item/'.$this->item.'/'.$type.$this->name;
     }
 

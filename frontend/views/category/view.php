@@ -54,7 +54,6 @@ Yii::$app->view->registerMetaTag([
             <?php foreach($models AS $model){ ?>
                 <div class="col-sm-4 col-xs-12">
                     <div class="shop-product" style="height: 320px !important;">
-                        <?php var_dump($model->itemImgs[0]->id); ?>
                         <a href="<?=Url::toRoute(['item/view', 'url'=> $model->url])?>" title="<?=Html::encode($model->name)?>"><img src="<?=isset($model->itemImgs[0]) ? $model->itemImgs[0]->getImgUrl('small_') : ''?>" class="img-responsive" alt="<?=Html::encode($model->name)?>" style="margin: auto;"></a>
                         <a href="<?=Url::toRoute(['item/view', 'url'=> $model->url])?>" title="<?=Html::encode($model->name)?>"><h5 class="primary-font"><?=$model->name?></h5></a>
                         <p class="text-muted">

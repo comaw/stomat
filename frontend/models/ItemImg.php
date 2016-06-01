@@ -63,10 +63,10 @@ class ItemImg extends \yii\db\ActiveRecord
         if(!$this->name){
             return null;
         }
-        $dirItemImg = Yii::getAlias('@frontend/web/image/item/').$this->item.'/'.$type.$this->name;
-        if(!is_file($dirItemImg)){
-            return null;
-        }
+//        $dirItemImg = Yii::getAlias('@frontend/web/image/item/').$this->item.'/'.$type.$this->name;
+//        if(!is_file($dirItemImg)){
+//            return null;
+//        }
         return Url::home(true).'image/item/'.$this->item.'/'.$type.$this->name;
     }
 }
