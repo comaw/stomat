@@ -8,7 +8,7 @@
 if('127.0.0.1' == $_SERVER['REMOTE_ADDR']){
     return [
         'class' => 'yii\db\Connection',
-        'dsn' => 'mysql:host=localhost;dbname=stomat',
+        'dsn' => 'mysql:host=localhost;dbname=stomat2',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',

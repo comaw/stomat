@@ -24,7 +24,7 @@ return [
     ],
     'components' => [
         'cache' => [
-//            'class' => 'yii\caching\DbCache',
+            'class' => 'yii\caching\DbCache',
             // 'db' => 'mydb',
             // 'cacheTable' => 'my_cache',
         ],

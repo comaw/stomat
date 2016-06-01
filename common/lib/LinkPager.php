@@ -50,6 +50,10 @@ class LinkPager extends \yii\widgets\LinkPager
      */
     public $prevPageLabel = '<';
 
+    public $firstPageLabel = 'Первая';
+
+    public $lastPageLabel = 'Последняя';
+
     public function init()
     {
         parent::init();

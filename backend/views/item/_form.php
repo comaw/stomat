@@ -33,7 +33,7 @@ if($session->has('urlToList')){
 }
 
 ?>
-
+<?=Html::a(Yii::t('app', 'К списку товаров'), $urlReturn, ['class' => 'btn btn-warning pull-right'])?>
 <?=\backend\widgets\TinyMce::widget()?>
 
 <div class="item-form">
