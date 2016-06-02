@@ -63,7 +63,8 @@ class Settings extends \yii\db\ActiveRecord
             [['name', 'title'], 'filter', 'filter' => 'strip_tags', 'skipOnArray' => true],
             [['name'], 'required'],
             [['last'], 'safe'],
-            [['name', 'value', 'title'], 'string', 'max' => 255],
+            [['name', 'title'], 'string', 'max' => 255],
+            [['value'], 'string'],
             [['name'], 'unique']
         ];
     }

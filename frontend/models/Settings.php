@@ -53,6 +53,8 @@ class Settings extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['name', 'value', 'title'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
+            [['name', 'title'], 'filter', 'filter' => 'strip_tags', 'skipOnArray' => true],
             [['name'], 'required'],
             [['value'], 'string'],
             [['last'], 'safe'],

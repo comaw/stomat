@@ -74,6 +74,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'created',
             'title',
             'description',
+            [
+                'attribute' => 'instruction',
+                'format' => 'raw',
+                'value' => Html::a($model->instruction, $model->getFileUrl(), ['target' => '_blank']),
+            ],
             'content:ntext',
         ],
     ]) ?>

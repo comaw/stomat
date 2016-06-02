@@ -8,6 +8,7 @@ use backend\models\ItemImg;
 use backend\models\ItemImportForm;
 use backend\models\ItemPriceForm;
 use backend\models\ItemExcelForm;
+use common\UrlHelper;
 use Yii;
 use backend\models\Item;
 use backend\models\ItemSearch;
@@ -210,7 +211,16 @@ class ItemController extends BaseController
         $imgs = new ItemImg();
         $characteristic = Characteristic::find()->orderBy('name asc')->all();
         if ($model->load(Yii::$app->request->post())) {
+            if(!$model->url){
+                $model->url = $model->name;
+            }
+            $model->url = UrlHelper::translateUrl($model->url);
             if($model->validate()){
+                $model->fileInstruction = UploadedFile::getInstance($model, 'fileInstruction');
+                if($model->fileInstruction){
+                    $model->instruction = $model->upload();
+                }
+                $model->fileInstruction = null;
                 $model->save(false);
                 \backend\models\Log::add(Yii::t('app', 'Создание товара ID').$model->id);
                 if($imgs->load(Yii::$app->request->post())){
@@ -255,7 +265,16 @@ class ItemController extends BaseController
         $imgs = new ItemImg();
         $characteristic = Characteristic::find()->orderBy('name asc')->all();
         if ($model->load(Yii::$app->request->post())) {
+            if(!$model->url){
+                $model->url = $model->name;
+            }
+            $model->url = UrlHelper::translateUrl($model->url);
             if($model->validate()){
+                $model->fileInstruction = UploadedFile::getInstance($model, 'fileInstruction');
+                if($model->fileInstruction){
+                    $model->instruction = $model->upload();
+                }
+                $model->fileInstruction = null;
                 $model->save(false);
                 \backend\models\Log::add(Yii::t('app', 'Редактирование товара ID').$model->id);
                 if($imgs->load(Yii::$app->request->post())){
@@ -307,6 +326,7 @@ class ItemController extends BaseController
                 $img->deleteImg();
             }
         }
+        $model->deleteFile();
         $model->delete();
         return $this->redirect(['index']);
     }

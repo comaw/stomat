@@ -5,6 +5,7 @@
 .idea
 
 frontend/web/image
+frontend/web/file
 
 # netbeans project files
 nbproject
@@ -30,3 +31,4 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+frontend/web/file/

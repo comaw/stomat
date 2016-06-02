@@ -117,4 +117,5 @@ return [
     'Logs' => 'Логи',
     'Log' => 'Лог',
     'Create Log' => 'Создать лог',
+    'Instruction' => 'Инструкция',
 ];

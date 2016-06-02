@@ -27,6 +27,8 @@ use Yii;
  * @property integer $delivery
  * @property integer $delivery_time
  * @property string $packing
+ * @property string $instruction
+ * @property string $fileInstruction
  * @property string $created
  *
  * @property Country $country0
@@ -40,6 +42,9 @@ use Yii;
  */
 class Item extends \yii\db\ActiveRecord
 {
+
+    public $fileInstruction;
+
     /**
      * @inheritdoc
      */
@@ -50,10 +55,10 @@ class Item extends \yii\db\ActiveRecord
 
     public function beforeValidate()
     {
-        if(!$this->url){
-            $this->url = $this->name;
-        }
-        $this->url = UrlHelper::translateUrl($this->url);
+//        if(!$this->url){
+//            $this->url = $this->name;
+//        }
+//        $this->url = UrlHelper::translateUrl($this->url);
         return parent::beforeValidate();
     }
 
@@ -97,14 +102,14 @@ class Item extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'url', 'title', 'description', 'packing', 'code', 'unit'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
-            [['name', 'url', 'title', 'description', 'packing', 'code', 'unit'], 'filter', 'filter' => 'strip_tags', 'skipOnArray' => true],
+            [['name', 'url', 'title', 'description', 'packing', 'code', 'unit', 'instruction'], 'filter', 'filter' => 'trim', 'skipOnArray' => true],
+            [['name', 'url', 'title', 'description', 'packing', 'code', 'unit', 'instruction'], 'filter', 'filter' => 'strip_tags', 'skipOnArray' => true],
             [['name', 'url', 'code', 'currency', 'category'], 'required'],
             [['content'], 'string'],
             [['currency', 'category', 'manufacturer', 'country', 'stock', 'warranty', 'delivery', 'delivery_time', 'home'], 'integer'],
             [['price'], 'number'],
             [['created'], 'safe'],
-            [['name', 'url', 'title', 'description', 'packing'], 'string', 'max' => 255],
+            [['name', 'url', 'title', 'description', 'packing', 'instruction'], 'string', 'max' => 255],
             [['code', 'unit'], 'string', 'max' => 20],
             [['name'], 'unique'],
             [['url'], 'unique'],
@@ -114,6 +119,7 @@ class Item extends \yii\db\ActiveRecord
             [['category'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category' => 'id']],
             [['manufacturer'], 'exist', 'skipOnError' => true, 'targetClass' => Manufacturer::className(), 'targetAttribute' => ['manufacturer' => 'id']],
             [['unit'], 'default', 'value' => Yii::t('app', 'шт.')],
+            [['fileInstruction'], 'file'],
         ];
     }
 
@@ -142,8 +148,42 @@ class Item extends \yii\db\ActiveRecord
             'delivery' => Yii::t('app', 'Delivery'),
             'delivery_time' => Yii::t('app', 'Delivery Time'),
             'packing' => Yii::t('app', 'Packing'),
+            'instruction' => Yii::t('app', 'Instruction'),
+            'fileInstruction' => Yii::t('app', 'Instruction'),
             'created' => Yii::t('app', 'Created'),
         ];
+    }
+
+    public function upload()
+    {
+        $this->deleteFile();
+        $dir = Yii::getAlias('@frontend/web/file/instruction/');
+        if(!is_dir($dir)){
+            mkdir($dir, 0777);
+        }
+        if ($this->validate()) {
+            $fileName = UrlHelper::translateUrl($this->fileInstruction->baseName) . '.' . $this->fileInstruction->extension;
+            $this->fileInstruction->saveAs($dir . $fileName);
+            return $fileName;
+        }
+        return false;
+    }
+
+    public function getFileUrl(){
+        if(!$this->instruction){
+            return null;
+        }
+        return '/file/instruction/'.$this->instruction;
+    }
+
+    public function deleteFile(){
+        $dir = Yii::getAlias('@frontend/web/file/instruction/');
+        $fileName = $dir . $this->instruction;
+        if(!is_file($fileName)){
+            return null;
+        }
+        @unlink($fileName);
+        return true;
     }
 
     /**

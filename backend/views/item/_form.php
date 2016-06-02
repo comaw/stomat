@@ -125,6 +125,7 @@ if($session->has('urlToList')){
         </div>
         <?php } ?>
     </div>
+    <?= $form->field($model, 'fileInstruction')->fileInput() ?>
     <?= $form->field($model, 'content')->textarea(['rows' => 6, 'class' => 'myTinyMce']) ?>
     <?php for($i = 0; $i < 4; $i++){ ?>
     <div class="row">
