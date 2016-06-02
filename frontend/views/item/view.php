@@ -96,6 +96,15 @@ Yii::$app->view->registerMetaTag([
                         'data-target' => '#onas',
                     ])?>
                 </li>
+                <?php if($model->getFileUrl()){ ?>
+                <li>
+                    <br>
+                    <?=Html::a(Yii::t('app', 'Инструкция к {name}', ['name' => $model->name]), $model->getFileUrl(), [
+                        'title' => Yii::t('app', 'Инструкция к {name}', ['name' => $model->name]),
+                        'target' => '_blank',
+                    ])?>
+                </li>
+                <?php } ?>
             </ul>
             <?php if($model->stock > 0){ ?>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">

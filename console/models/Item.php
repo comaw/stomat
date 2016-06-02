@@ -1,9 +1,8 @@
 <?php
 
-namespace frontend\models;
+namespace console\models;
 
 use Yii;
-use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%item}}".
@@ -30,12 +29,14 @@ use yii\helpers\Url;
  * @property string $instruction
  * @property string $created
  *
+ * @property CartItem[] $cartItems
  * @property Currency $currency0
  * @property Category $category0
  * @property Manufacturer $manufacturer0
  * @property Country $country0
  * @property ItemCharacteristic[] $itemCharacteristics
  * @property ItemImg[] $itemImgs
+ * @property OrderItem[] $orderItems
  */
 class Item extends \yii\db\ActiveRecord
 {
@@ -100,11 +101,12 @@ class Item extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getFileUrl(){
-        if(!$this->instruction){
-            return null;
-        }
-        return Url::home(true).'file/instruction/'.$this->instruction;
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCartItems()
+    {
+        return $this->hasMany(CartItem::className(), ['item' => 'id']);
     }
 
     /**
@@ -155,46 +157,11 @@ class Item extends \yii\db\ActiveRecord
         return $this->hasMany(ItemImg::className(), ['item' => 'id']);
     }
 
-    public function getStockName(){
-        return isset(self::yesOrNo()[$this->stock]) ? self::yesOrNo()[$this->stock] : null;
-    }
-
-    public function getHomeName(){
-        return isset(self::yesOrNo()[$this->home]) ? self::yesOrNo()[$this->home] : null;
-    }
-
-    public function getDeliveryName(){
-        return isset(self::yesOrNo()[$this->delivery]) ? self::yesOrNo()[$this->delivery] : null;
-    }
-
-    public function getWarrantyName(){
-        return isset(self::warrantyList()[$this->warranty]) ? self::warrantyList()[$this->warranty] : null;
-    }
-
-    public static function yesOrNo($ksort = false){
-        $r = [
-            1 => Yii::t('app', 'Да'),
-            0 => Yii::t('app', 'Нет'),
-        ];
-        if($ksort){
-            ksort($r);
-        }
-        return $r;
-    }
-
-    public static function warrantyList(){
-        return [
-            1 => Yii::t('app', '1 месяц'),
-            2 => Yii::t('app', '2 месяца'),
-            3 => Yii::t('app', '3 месяца'),
-            6 => Yii::t('app', '6 месяцев'),
-            9 => Yii::t('app', '9 месяцев'),
-            12 => Yii::t('app', '12 месяцев'),
-            18 => Yii::t('app', '18 месяцев'),
-            24 => Yii::t('app', '24 месяца'),
-            36 => Yii::t('app', '26 месяцев'),
-            48 => Yii::t('app', '48 месяцев'),
-            72 => Yii::t('app', '72 месяца'),
-        ];
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrderItems()
+    {
+        return $this->hasMany(OrderItem::className(), ['item' => 'id']);
     }
 }

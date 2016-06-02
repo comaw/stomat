@@ -23,6 +23,22 @@ return [
         ],
     ],
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+//                'yii\web\JqueryAsset' => [
+//                    'sourcePath' => null,
+//                    'js' => ['template/jquery.min.js']
+//                ],
+                'yii\bootstrap\BootstrapPluginAsset' => [
+                    'js'=>[]
+                ],
+                'yii\bootstrap\BootstrapAsset' => [
+                    'sourcePath' => null,
+                    'css' => ['template/bootstrap.min.css'],
+                    'js' => ['tinymce/bootstrap.js'],
+                ],
+            ],
+        ],
         'cache' => [
 //            'class' => 'yii\caching\DbCache',
             // 'db' => 'mydb',
@@ -71,7 +87,9 @@ return [
                 'item/excel' => 'item/excel',
                 'item/import' => 'item/import',
                 'item/imgdelete' => 'item/imgdelete',
+                'item/edit' => 'item/edit',
                 'item/<url:.+>' => 'item/view',
+
 
                 '<controller:\w+>/<id:\d+>/<action:(create|update|delete)>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

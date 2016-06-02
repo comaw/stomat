@@ -5,7 +5,7 @@
  * stomat
  */
 
-if('127.0.0.1' == $_SERVER['REMOTE_ADDR']){
+if((isset($_SERVER['REMOTE_ADDR']) && '127.0.0.1' == $_SERVER['REMOTE_ADDR']) || mb_substr_count(__DIR__, '1stomat.ru', 'UTF-8') > 0){
     return [
         'class' => 'yii\db\Connection',
         'dsn' => 'mysql:host=localhost;dbname=stomat2',

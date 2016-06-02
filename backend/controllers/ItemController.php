@@ -141,6 +141,29 @@ class ItemController extends BaseController
         ]);
     }
 
+    public function actionEdit()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if(!Yii::$app->request->isAjax){
+            throw new HttpException(403, 'No ajax');
+        }
+        $model = Item::findOne((int)Yii::$app->request->post('pk'));
+        if(!$model){
+            throw new HttpException(404, 'No found pk');
+        }
+        $field = Yii::$app->request->post('name');
+        if(!isset($model->{$field})){
+            throw new HttpException(404, 'No found name');
+        }
+        $model->{$field} = trim(Yii::$app->request->post('value'));
+        if($model->validate()){
+            $model->save(false);
+            return ['r' => 'OK'];
+        }else{
+            return $model->getErrors();
+        }
+    }
+
     public function actionExcel()
     {
         set_time_limit(0);
@@ -176,6 +199,7 @@ class ItemController extends BaseController
 
     public function beforeAction($action)
     {
+        $this->enableCsrfValidation = false;
         if($action->id == 'index'){
             $session = Yii::$app->session;
             $session->set('urlToList', Url::current());

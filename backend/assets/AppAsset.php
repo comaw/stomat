@@ -18,9 +18,16 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        '//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css',
+        'tinymce/jquery-ui/jquery-ui.min.css',
         'css/site.css',
     ];
     public $js = [
+        'tinymce/bootstrap.js',
+        'tinymce/jquery-ui.min.js',
+        'tinymce/datepicker-ru.js',
+        '//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js',
+        'tinymce/admin.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
