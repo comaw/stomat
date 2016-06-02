@@ -48,7 +48,7 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
         'request' => [
-            'enableCsrfValidation' => true,
+            'enableCsrfValidation' => false,
             'cookieValidationKey' => 'jksh3786($(W^',
             'baseUrl' => '/admin',
         ],

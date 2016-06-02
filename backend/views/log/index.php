@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'user',
             [
                 'attribute' => 'user',
+//                'contentOptions' => ['style' => 'width: 400px !important; white-space: pre-wrap; word-wrap: break-word;'],
                 'format' => 'raw',
                 'value' => function($data){
                     return isset($data->user0->username) ? $data->user0->username : null;
@@ -29,10 +30,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => \backend\models\User::listUser(),
             ],
             'created',
-            'description',
+//            'description',
+            [
+                'attribute' => 'description',
+                'contentOptions' => ['style' => 'width: 400px !important; white-space: pre-wrap; word-wrap: break-word;'],
+                'format' => 'raw',
+                'value' => function($data){
+                    return isset($data->description) ? $data->description : null;
+                },
+            ],
 
-            ['class' => 'yii\grid\ActionColumn',
-                'template' => '{delete}'],
+//            ['class' => 'yii\grid\ActionColumn',
+//                'template' => '{delete}'],
         ],
     ]); ?>
 <?php Pjax::end(); ?>
